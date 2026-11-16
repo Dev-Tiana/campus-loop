@@ -1,4 +1,3 @@
-import {recoverVerifiedGoogleAccount} from '../shared/google-recovery.js';
 import {appointmentReminders,defaultReminders,visibleAppointmentReminder} from '../shared/appointment-reminders.js';
 import {serviceAreas,allowsServiceLocation} from '../shared/service-location.js';
 import {cleaningPropertyTypes,cleaningAreas,matchesProperty,availableBooking,bookingTime,formatBookingTime,quoteTotal} from '../shared/booking-options.js';
@@ -67,6 +66,7 @@ function update(action) {
 }
 const photoStorage=createPhotoStorage(filename+'.photos');
 const requireValue = (ok, message, status=400) => { if (!ok) throw Object.assign(new Error(message), {status}); };
+const {recoverVerifiedGoogleAccount}=await import('../shared/google-recovery.js');
 const clean = (value, max=160) => typeof value === 'string' ? value.trim().slice(0,max) : '';
 const amount = (value, optional=false) => {
   if (optional && (value === '' || value == null)) return null;

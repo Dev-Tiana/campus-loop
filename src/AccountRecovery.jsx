@@ -10,14 +10,14 @@ export default function AccountRecovery({requiredRole,next,busy,onSend,onError,o
   try{
    const response=await fetch('/api/recovery/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({credential,accountRole:requiredRole||undefined})});
    const data=await response.json();if(!response.ok)throw Error(data.error||'Google verification failed.');
-   if(!data.recovery)throw Error('Please verify your Google account again.');
+   if(!data.recovery?.confirmationId)throw Error('Please verify your Google account again.');
    setProof(data.recovery);
   }catch(e){setError(e.message);}finally{setChecking(false);}
  }
  async function confirm(){
   if(confirming||busy)return;setConfirming(true);setError('');onError?.('');
   try{
-   const response=await fetch('/api/recovery/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+   const response=await fetch('/api/recovery/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({confirmationId:proof?.confirmationId})});
    const data=await response.json();
    if(!response.ok){if(response.status===401)setProof(null);throw Error(data.error||'Recovery could not be completed.');}
    window.location.assign(safeAppPath(next)||'/app');

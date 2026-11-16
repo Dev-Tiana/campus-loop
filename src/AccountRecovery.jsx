@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
 import Logo from './Logo.jsx';
 import GoogleSignIn from './GoogleSignIn.jsx';
-import {authPath} from '../shared/app-routes.js';
+import {authPath,safeAppPath} from '../shared/app-routes.js';
 import './account-recovery.css';
 export default function AccountRecovery({requiredRole,next,busy,onSend,onError,onSuccess}){
- const [proof,setProof]=useState(null),[checking,setChecking]=useState(false),[error,setError]=useState('');
+ const [proof,setProof]=useState(null),[checking,setChecking]=useState(false),[confirming,setConfirming]=useState(false),[error,setError]=useState('');
  async function verify(credential){
   if(checking||busy)return;setChecking(true);setError('');onError?.('');
   try{
@@ -14,8 +14,17 @@ export default function AccountRecovery({requiredRole,next,busy,onSend,onError,o
    setProof(data.recovery);
   }catch(e){setError(e.message);}finally{setChecking(false);}
  }
+ async function confirm(){
+  if(confirming||busy)return;setConfirming(true);setError('');onError?.('');
+  try{
+   const response=await fetch('/api/recovery/confirm',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});
+   const data=await response.json();
+   if(!response.ok){if(response.status===401)setProof(null);throw Error(data.error||'Recovery could not be completed.');}
+   window.location.assign(safeAppPath(next)||'/app');
+  }catch(e){setError(e.message);}finally{setConfirming(false);}
+ }
  return <section className="account-recovery"><div className="account-logo"><Logo/></div><span className="eyebrow">EXISTING ACCOUNT</span><h2>{proof?'Confirm your account':'Recover your account'}</h2>
- {proof?<RecoveryConfirmation proof={proof} busy={busy} onConfirm={()=>onSend('recovery/confirm',{},onSuccess)} onChoose={()=>{setProof(null);setError('');onError?.('');}}/>:<><p>Use the same Google email as your existing Campus Loop account. We’ll verify it before reconnecting you.</p><p className="muted">Your account and history stay together. You won’t need to create another Customer or Provider account.</p><GoogleSignIn configPath="/api/recovery/google" onCredential={verify} onError={e=>setError(e)}/>{checking&&<p role="status">Verifying your Google account…</p>}<p className="recovery-help">Unlinked accounts can recover with a verified Gmail or Google Workspace address. For other email providers, use your original sign-in method or contact Campus Loop.</p></>}
+ {proof?<RecoveryConfirmation proof={proof} busy={busy||confirming} onConfirm={confirm} onChoose={()=>{setProof(null);setError('');onError?.('');}}/>:<><p>Use the same Google email as your existing Campus Loop account. We’ll verify it before reconnecting you.</p><p className="muted">Your account and history stay together. You won’t need to create another Customer or Provider account.</p><GoogleSignIn configPath="/api/recovery/google" onCredential={verify} onError={e=>setError(e)}/>{checking&&<p role="status">Verifying your Google account…</p>}<p className="recovery-help">Unlinked accounts can recover with a verified Gmail or Google Workspace address. For other email providers, use your original sign-in method or contact Campus Loop.</p></>}
  {error&&<p className="error" role="alert">{error}</p>}<a className="text-btn recovery-back" href={authPath({role:requiredRole,next})}>Back to sign in</a></section>;
 }
 

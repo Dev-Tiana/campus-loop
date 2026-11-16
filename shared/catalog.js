@@ -2,7 +2,7 @@ import config from '../data/campus-guide.json' with {type:'json'};
 export const guideConfiguration=config;
 import {defaultCategories} from './category-defaults.js';
 export {defaultCategories} from './category-defaults.js';
-export function categoryRecords(state={}){return (state.categoryRecords || defaultCategories).map(r=>({...r,value:r.presetKey || r.name})).sort((a,b)=>a.displayOrder-b.displayOrder);}
+export function categoryRecords(state={}){const stored=state.categoryRecords || [];const ids=new Set(stored.map(r=>r.id));return [...stored,...defaultCategories.filter(r=>!ids.has(r.id))].map(r=>({...r,value:r.presetKey || r.name})).sort((a,b)=>a.displayOrder-b.displayOrder);}
 export function findCategory(state,value){return categoryRecords(state).find(r=>r.id===value||r.name===value||r.value===value||r.legacyNames?.includes(value));}
 export const categoryKey=(state,item)=>item.categoryId || findCategory(state,item.category)?.id || item.category;
 export function externalLink(value,type='https'){try{const u=new URL(value);if(u.protocol!=='https:')return null;if(type==='maps'&&!(['www.google.com','maps.google.com','maps.app.goo.gl','goo.gl'].includes(u.hostname)&&(u.hostname!=='www.google.com'||u.pathname.startsWith('/maps'))))return null;if(type==='whatsapp'&&(u.hostname!=='chat.whatsapp.com'||!/^\/[A-Za-z0-9]+$/.test(u.pathname)))return null;return u.href;}catch{return null;}}

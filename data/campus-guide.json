@@ -1,0 +1,34 @@
+{
+  "ownerContactUrl": null,
+  "menuItems": [
+    {
+      "id": "events",
+      "label": "Upcoming events",
+      "type": "events",
+      "displayOrder": 0,
+      "visible": true
+    },
+    {
+      "id": "hotels",
+      "label": "Locate a hotel",
+      "type": "hotels",
+      "displayOrder": 1,
+      "visible": true
+    },
+    {
+      "id": "groups",
+      "label": "Join a WhatsApp group",
+      "type": "groups",
+      "displayOrder": 2,
+      "visible": true
+    },
+    {
+      "id": "restaurants",
+      "label": "Locate a restaurant",
+      "type": "restaurants",
+      "displayOrder": 3,
+      "visible": true
+    }
+  ],
+  "entries": []
+}

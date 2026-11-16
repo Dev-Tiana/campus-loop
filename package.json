@@ -1,0 +1,27 @@
+{
+  "name": "campusloop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "api": "node --env-file-if-exists=.env server/index.js",
+    "build": "node scripts/build-worker.mjs",
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "test": "node --test server/*.test.js",
+    "test:hosted": "node --test worker/*.test.js",
+    "test:entry": "node scripts/test-entry-render.mjs",
+    "validate:guide": "node scripts/validate-guide.mjs",
+    "test:pwa": "node --test scripts/pwa-update.test.mjs"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongodb": "^6.17.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

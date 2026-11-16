@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.campusloop-data.json*
+worker/assets.js
+outputs/
+
+node_modules
+*.json.photos/
+.campusloop-data.json.photos/

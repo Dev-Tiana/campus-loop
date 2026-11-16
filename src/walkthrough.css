@@ -1,0 +1,24 @@
+.welcome-walkthroughs{margin-top:24px;border-top:1px solid #eaded2;padding-top:20px}
+.welcome-walkthroughs h2{font-size:1.18rem;margin:0 0 12px}
+.welcome-walkthrough-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.walkthrough-button{display:grid;gap:0;overflow:hidden;width:100%;min-width:0;padding:0;border:1px solid #eaded2;border-radius:14px;background:#fffaf4;color:#29251f;text-align:left;font-size:.94rem;line-height:1.25}
+.walkthrough-button:hover{background:#fff0e4}
+.walkthrough-button small{display:block;margin-top:3px;color:#68564b;font-size:.8rem}
+.walkthrough-thumbnail{position:relative;display:grid;place-items:center;aspect-ratio:16/9;background:#f6e0d1}
+.walkthrough-thumbnail img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.walkthrough-play{position:relative;display:grid;place-items:center;width:52px;height:52px;border:2px solid #fffaf4;border-radius:50%;background:#25251e;color:#fffaf4}
+.walkthrough-caption{display:block;padding:10px 12px}
+.account-walkthrough .walkthrough-button,.walkthrough-help .walkthrough-button{display:flex;align-items:center;flex:1}
+.account-walkthrough .walkthrough-thumbnail,.walkthrough-help .walkthrough-thumbnail{flex:0 0 clamp(110px,29vw,176px)}
+.account-walkthrough .walkthrough-play,.walkthrough-help .walkthrough-play{width:40px;height:40px}
+.account-walkthrough{display:flex;align-items:center;gap:4px}
+.walkthrough-dismiss,.walkthrough-dialog-header button{display:grid;place-items:center;width:44px;height:44px;flex:none;padding:0;border:0;border-radius:10px;background:transparent;color:#29251f}
+.walkthrough-dismiss:hover,.walkthrough-dialog-header button:hover{background:#f5e6da}
+.walkthrough-help summary{width:fit-content;cursor:pointer;padding:8px 0;font-weight:700}
+.walkthrough-help .walkthrough-button{max-width:360px}
+.walkthrough-dialog{width:min(410px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:12px;margin:auto;border:0;border-radius:18px;background:#fffaf4;color:#29251f}
+.walkthrough-dialog::backdrop{background:#201814b8}
+.walkthrough-dialog-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.walkthrough-dialog-header h2{font-size:1.1rem;margin:0}
+.walkthrough-dialog video{display:block;width:100%;height:auto;max-height:calc(100dvh - 112px);object-fit:contain;background:#25251e;border-radius:10px}
+@media(max-width:490px){.welcome-walkthrough-grid{grid-template-columns:1fr}}

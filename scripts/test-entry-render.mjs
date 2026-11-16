@@ -1,0 +1,2 @@
+import {build} from 'esbuild';import {mkdir} from 'node:fs/promises';import {execFileSync} from 'node:child_process';
+await mkdir('outputs',{recursive:true});await build({entryPoints:['scripts/entry-render.test.jsx'],outfile:'outputs/entry-render.test.cjs',bundle:true,platform:'node',format:'cjs',loader:{'.css':'empty'},external:['react','react-dom/server']});execFileSync(process.execPath,['--test','outputs/entry-render.test.cjs'],{stdio:'inherit'});

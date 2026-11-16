@@ -1,0 +1,30 @@
+.account-dashboard{max-width:1050px;margin:24px auto 42px;display:grid;gap:20px}
+.account-dashboard-hero{padding:clamp(20px,4vw,42px);border-radius:24px;color:#fff9f2;background:radial-gradient(ellipse at 100% 0%,#844629 0%,transparent 62%),#24241e}
+.account-dashboard-context{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:#ffd5bb;font-size:.82rem;font-weight:700}
+.account-dashboard-hero h1{font-size:clamp(2.15rem,6vw,4rem);letter-spacing:-.055em;line-height:1.02;margin:12px 0 8px;overflow-wrap:anywhere}
+.account-dashboard-hero p{max-width:46ch;margin:0;color:#f0e2d9}
+.account-dashboard-primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;border:0;border-radius:12px;padding:10px 14px;margin-top:20px;background:#ffd2b5;color:#28211c;font-weight:800}
+.account-dashboard-primary:hover{background:#ffe0cd}
+.account-dashboard-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.account-dashboard-stat{display:grid;align-content:start;justify-items:start;gap:5px;padding:14px;border:1px solid #eaded2;border-radius:16px;background:#fffaf4;color:#29251f;text-align:left}
+.account-dashboard-stat svg,.account-dashboard-shortcut svg:first-child,.account-dashboard-empty svg{color:#a44122}
+.account-dashboard-stat strong{font-size:clamp(1.55rem,4vw,2.35rem);line-height:1.05;letter-spacing:-.045em}
+.account-dashboard-stat span{font-size:.83rem;font-weight:650}
+.account-dashboard-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,.52fr);gap:16px;align-items:start}
+.account-dashboard-activity{border:1px solid #eaded2;border-radius:17px;background:#fffaf4;min-width:0}
+.account-dashboard-section-head{padding:13px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.account-dashboard-section-head h2{font-size:1.1rem;line-height:1.25;margin:0;letter-spacing:-.02em}
+.account-dashboard-link{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;border:0;background:none;color:#923918;font-size:.82rem;font-weight:800;min-height:44px}
+.account-dashboard-activity ul{list-style:none;padding:0;margin:0}
+.account-dashboard-activity li button{display:grid;grid-template-columns:minmax(0,1fr) auto auto;text-align:left;align-items:center;gap:8px;width:100%;padding:11px 14px;background:transparent;border:0;border-top:1px solid #eaded2;color:#29251f}
+.account-dashboard-activity li strong,.account-dashboard-activity li small{display:block;overflow-wrap:anywhere}
+.account-dashboard-activity li small,.account-dashboard-empty p{color:#6b6057;font-size:.8rem}
+.account-dashboard-state{max-width:105px;padding:4px 6px;border-radius:8px;background:#f6e7db;color:#6c391f;font-size:.74rem;font-weight:700}
+.account-dashboard-empty{padding:10px 14px 17px;display:flex;align-items:flex-start;gap:10px}
+.account-dashboard-empty p{margin:3px 0 0}
+.account-dashboard-shortcuts{display:grid;gap:8px}
+.account-dashboard-shortcut{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;min-height:50px;padding:10px 13px;text-align:left;border:1px solid #eaded2;border-radius:12px;background:#fffaf4;color:#29251f;font-weight:700}
+.account-dashboard-shortcut:hover,.account-dashboard-stat:hover,.account-dashboard-activity li button:hover{background:#fff1e1}
+@media(max-width:660px){.account-dashboard{margin:14px auto 26px;gap:12px}.account-dashboard-grid{grid-template-columns:minmax(0,1fr);gap:12px}.account-dashboard-stats{gap:7px}.account-dashboard-stat{padding:10px 8px}.account-dashboard-stat span{font-size:.74rem}.account-dashboard-hero{border-radius:18px}}
+
+.account-dashboard-greeting{margin:12px 0 8px}.account-dashboard-greeting h1{margin:0}.account-dashboard-greeting .account-avatar{inline-size:48px;block-size:48px}

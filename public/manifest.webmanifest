@@ -1,0 +1,31 @@
+{
+  "id": "/",
+  "name": "Campus Loop \u2014 DELSU Abraka",
+  "short_name": "Campus Loop",
+  "description": "Campus services, rides, housing and roommates at DELSU Abraka.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbf9f5",
+  "theme_color": "#26271f",
+  "icons": [
+    {
+      "src": "/icons/loop-v3-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/loop-v3-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/loop-v3-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

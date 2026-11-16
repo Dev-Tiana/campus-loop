@@ -1,0 +1,2 @@
+import {mkdir,writeFile,readFile,rm} from 'node:fs/promises';
+export function createPhotoStorage(directory){return {async remove(id){await rm(directory+'/'+id,{force:true});},async put(id,bytes){await mkdir(directory,{recursive:true});await writeFile(directory+'/'+id,bytes,{mode:0o600});},async get(id){try{return new Uint8Array(await readFile(directory+'/'+id));}catch(e){if(e.code==='ENOENT')return null;throw e;}}};}

@@ -1,0 +1,13 @@
+import {readFile,writeFile,mkdir,readdir,copyFile} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import {build} from 'esbuild';
+execFileSync('node',['scripts/validate-guide.mjs'],{stdio:'inherit'});
+execFileSync('python',['scripts/prepare-worker.py'],{stdio:'inherit'});
+execFileSync('node',['node_modules/vite/bin/vite.js','build'],{stdio:'inherit'});
+execFileSync('node',['scripts/pwa-build.mjs'],{stdio:'inherit'});
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.mp4':'video/mp4','.png':'image/png','.svg':'image/svg+xml','.webmanifest':'application/manifest+json','.json':'application/json'};
+const assets={};async function visit(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const path=dir+'/'+entry.name;if(entry.isDirectory())await visit(path);else{assets[path.slice(4)]={body:(await readFile(path)).toString('base64'),type:types[path.slice(path.lastIndexOf('.'))]||'application/octet-stream'};}}}await visit('dist');
+await writeFile('worker/assets.js','export default '+JSON.stringify(assets)+';');await mkdir('dist/server',{recursive:true});
+await build({entryPoints:['worker/index.js'],outfile:'dist/server/index.js',bundle:true,format:'esm',platform:'neutral',external:['node:crypto','node:buffer'],minify:true});
+await writeFile('dist/server/wrangler.json',JSON.stringify({name:'campusloop-test',main:'index.js',compatibility_date:'2026-11-01',compatibility_flags:['nodejs_compat'],triggers:{crons:['*/5 * * * *']},r2_buckets:[{binding:'BUCKET',bucket_name:'campusloop-photos'}],d1_databases:[{binding:'DB',database_name:'campusloop',database_id:'DB',migrations_dir:'../../drizzle'}]}));
+await mkdir('dist/.openai',{recursive:true});await copyFile('.openai/hosting.json','dist/.openai/hosting.json');

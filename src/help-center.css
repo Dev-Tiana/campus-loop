@@ -1,0 +1,16 @@
+.help-center,.help-form,.help-questions,.help-tickets{display:grid;gap:12px;min-width:0}
+.help-center h2,.help-center h3,.help-center p{margin:0}
+.help-options{display:flex;flex-wrap:wrap;gap:8px}
+.help-options button{min-height:44px}
+.help-form label{display:grid;gap:5px;font-weight:650}
+.help-form :is(input,textarea,select){width:100%}
+.help-form button{justify-self:start}
+.help-questions details,.help-tickets details{padding:12px;border:1px solid #eaded2;border-radius:12px;background:#fffaf4;overflow-wrap:anywhere}
+.help-center summary{cursor:pointer;font-weight:700}
+.help-center details p{white-space:pre-wrap;margin-top:10px}
+.help-tickets small{display:block;margin-top:8px;color:#68564b}
+
+.explore-help{margin:18px 0;padding:14px;border:1px solid #eaded2;border-radius:16px;background:#fffaf4}
+.explore-help h2{font-size:1.05rem;margin:0 0 9px}
+.explore-help .help-options button{display:inline-flex;align-items:center;gap:7px}
+.explore-help .help-options svg{flex:none;color:#923918}

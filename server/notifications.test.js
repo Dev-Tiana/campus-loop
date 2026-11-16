@@ -1,0 +1,6 @@
+import test from 'node:test';import {spawn} from 'node:child_process';import {mkdtemp,rm} from 'node:fs/promises';import {join} from 'node:path';import {tmpdir} from 'node:os';import {setTimeout as pause} from 'node:timers/promises';import {exerciseNotifications} from './notification-scenario.js';
+test('tracking, matching notifications, persisted reads, deep-link targets, idempotent retries and booking snapshots',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'campusloop-notify-')),port=String(20000+Math.floor(Math.random()*20000)),server=spawn(process.execPath,['server/index.js'],{env:{...process.env,PORT:port,LOCAL_DATA_FILE:join(dir,'state.json'),MONGODB_URI:'',NODE_ENV:'test'}});
+ async function call(path,body,cookie){const r=await fetch('http://127.0.0.1:'+port+'/api/'+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{})},body:body?JSON.stringify(body):undefined});return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0]};}
+ try{for(let i=0;i<50;i++){try{await call('state');break;}catch(e){if(i===49)throw e;await pause(50);}}await exerciseNotifications(call);}finally{server.kill();await new Promise(r=>server.once('exit',r));await rm(dir,{recursive:true,force:true});}
+});

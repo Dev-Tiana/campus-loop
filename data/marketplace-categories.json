@@ -1,0 +1,128 @@
+[
+  {
+    "id": "nails",
+    "name": "Nails",
+    "presetKey": "Nails",
+    "displayOrder": 0,
+    "visible": true
+  },
+  {
+    "id": "hair",
+    "name": "Hair",
+    "presetKey": "Hair",
+    "displayOrder": 10,
+    "visible": true
+  },
+  {
+    "id": "lashes",
+    "name": "Lashes",
+    "presetKey": "Lashes",
+    "displayOrder": 20,
+    "visible": true
+  },
+  {
+    "id": "tailoring",
+    "name": "Tailoring",
+    "presetKey": "Tailoring",
+    "displayOrder": 30,
+    "visible": true
+  },
+  {
+    "id": "laundry",
+    "name": "Laundry",
+    "presetKey": "Laundry",
+    "displayOrder": 40,
+    "visible": true
+  },
+  {
+    "id": "cleaning",
+    "name": "Cleaning",
+    "presetKey": "Cleaning",
+    "displayOrder": 50,
+    "visible": true
+  },
+  {
+    "id": "tutoring",
+    "name": "Tutoring",
+    "presetKey": "Tutoring",
+    "displayOrder": 60,
+    "visible": true
+  },
+  {
+    "id": "housing",
+    "name": "Housing",
+    "presetKey": "Housing",
+    "displayOrder": 70,
+    "visible": true
+  },
+  {
+    "id": "massage",
+    "name": "Massage",
+    "presetKey": "Massage",
+    "displayOrder": 80,
+    "visible": true
+  },
+  {
+    "id": "transport",
+    "name": "Transport",
+    "presetKey": "Transport",
+    "displayOrder": 90,
+    "visible": true
+  },
+  {
+    "id": "electronics-repair",
+    "name": "Electronics repair",
+    "presetKey": "Electronics repair",
+    "displayOrder": 100,
+    "visible": true
+  },
+  {
+    "id": "plumbing",
+    "name": "Plumbing",
+    "presetKey": "Plumbing",
+    "displayOrder": 110,
+    "visible": true
+  },
+  {
+    "id": "interior-design",
+    "name": "Interior design",
+    "presetKey": "Interior design",
+    "displayOrder": 120,
+    "visible": true
+  },
+  {
+    "id": "painting",
+    "name": "Painting",
+    "presetKey": "Painting",
+    "displayOrder": 130,
+    "visible": true
+  },
+  {
+    "id": "barbering",
+    "name": "Barbering",
+    "presetKey": "Barbering",
+    "displayOrder": 140,
+    "visible": true
+  },
+  {
+    "id": "photography",
+    "name": "Photography",
+    "presetKey": "Photography",
+    "displayOrder": 150,
+    "visible": true
+  },
+  {
+    "id": "food-cooking",
+    "name": "Food & Cooking",
+    "presetKey": "Food & Cooking",
+    "displayOrder": 160,
+    "visible": true
+  },
+  {
+    "id": "delivery",
+    "name": "Delivery",
+    "presetKey": "Delivery",
+    "displayOrder": 170,
+    "visible": true
+  }
+]

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /app
+Disallow: /admin
+Disallow: /api/
+Disallow: /signin
+Disallow: /signup
+
+Sitemap: https://www.campusloopnaija.name.ng/sitemap.xml

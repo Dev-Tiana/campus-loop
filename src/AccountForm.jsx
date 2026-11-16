@@ -1,9 +1,9 @@
 import AccountRecovery from './AccountRecovery.jsx';
-import {authPath} from '../shared/app-routes.js';
+import {authPath,safeAppPath} from '../shared/app-routes.js';
 import React,{useState} from 'react';
 import Logo from './Logo.jsx';import GoogleSignIn from './GoogleSignIn.jsx';
 export function RoleChoices({value,onChange}){return <fieldset className="account-role-options"><legend>Account type</legend>{[['customer','Customer account','I want to request services.'],['provider','Provider account','I want to offer services.']].map(([role,title,detail])=><button key={role} type="button" aria-pressed={value===role} className={'role-choice'+(value===role?' is-selected':'')} onClick={()=>onChange(role)}><strong>{title}</strong><span>{detail}</span>{value===role&&<b aria-hidden="true">✓</b>}</button>)}</fieldset>;}
-export default function AccountForm({signup:initialSignup=false,accountRole:initialRole,requiredRole,campuses,busy,onSend,onError,onSuccess,onModeChange,next,initialRecovery=false}){
+export default function AccountForm({signup:initialSignup=false,accountRole:initialRole,requiredRole,campuses,busy,onSend,onError,onSuccess,onModeChange,next=typeof window!=='undefined'?safeAppPath(new URL(window.location.href).searchParams.get('next')):null,initialRecovery=typeof window!=='undefined'&&new URL(window.location.href).searchParams.get('recover')==='1'}){
  const [signup,setSignup]=useState(initialSignup),[accountRole,setRole]=useState(initialRole||requiredRole||'');
  if(initialRecovery)return <AccountRecovery requiredRole={requiredRole} next={next} busy={busy} onSend={onSend} onError={onError} onSuccess={onSuccess}/>;
  const signin=authPath({role:requiredRole,next});const recoverHref=signin+(signin.includes('?')?'&':'?')+'recover=1';

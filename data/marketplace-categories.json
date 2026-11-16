@@ -124,5 +124,68 @@
     "presetKey": "Delivery",
     "displayOrder": 170,
     "visible": true
+  },
+  {
+    "id": "writing",
+    "name": "Writing",
+    "presetKey": "Writing",
+    "displayOrder": 180,
+    "visible": true
+  },
+  {
+    "id": "assignments",
+    "name": "Assignments",
+    "presetKey": "Assignments",
+    "displayOrder": 190,
+    "visible": true
+  },
+  {
+    "id": "music",
+    "name": "Music",
+    "presetKey": "Music",
+    "displayOrder": 200,
+    "visible": true
+  },
+  {
+    "id": "printing-photocopying",
+    "name": "Printing & Photocopying",
+    "presetKey": "Printing & Photocopying",
+    "displayOrder": 210,
+    "visible": true
+  },
+  {
+    "id": "event-planning-decoration",
+    "name": "Event Planning & Decoration",
+    "presetKey": "Event Planning & Decoration",
+    "displayOrder": 220,
+    "visible": true
+  },
+  {
+    "id": "makeup-artistry",
+    "name": "Makeup Artistry",
+    "presetKey": "Makeup Artistry",
+    "displayOrder": 230,
+    "visible": true
+  },
+  {
+    "id": "graphic-design",
+    "name": "Graphic Design",
+    "presetKey": "Graphic Design",
+    "displayOrder": 240,
+    "visible": true
+  },
+  {
+    "id": "car-washing",
+    "name": "Car Washing",
+    "presetKey": "Car Washing",
+    "displayOrder": 250,
+    "visible": true
+  },
+  {
+    "id": "shoe-cleaning-repairs",
+    "name": "Shoe Cleaning & Repairs",
+    "presetKey": "Shoe Cleaning & Repairs",
+    "displayOrder": 260,
+    "visible": true
   }
 ]

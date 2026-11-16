@@ -62,11 +62,16 @@ Deno.serve(async (request) => {
   const marker = url.pathname.indexOf("/api/");
   if (marker < 0) return new Response("Not found", {status: 404});
   url.pathname = url.pathname.slice(marker);
+  // Keep the verified custom domain and existing staging site as exact approved origins.
+  const configuredOrigin = Deno.env.get("CAMPUSLOOP_PUBLIC_ORIGIN") || "https://www.campusloopnaija.name.ng";
+  const approvedOrigins = new Set([configuredOrigin, "https://www.campusloopnaija.name.ng", "https://campus-loop-staging.vercel.app"]);
+  const requestOrigin = request.headers.get("origin");
+  const publicOrigin = requestOrigin && approvedOrigins.has(requestOrigin) ? requestOrigin : configuredOrigin;
   try {
     return await handleApi(new Request(url, request), {
       marketplaceStore,
       BUCKET: bucket,
-      PUBLIC_ORIGIN: Deno.env.get("CAMPUSLOOP_PUBLIC_ORIGIN") || "https://campus-loop-staging.vercel.app",
+      PUBLIC_ORIGIN: publicOrigin,
       GOOGLE_CLIENT_ID: Deno.env.get("GOOGLE_CLIENT_ID") || "678659685763-5qhk2n9r18d9d1r46120ktdkd3glp26k.apps.googleusercontent.com",
       GOOGLE_MAPS_BROWSER_KEY: Deno.env.get("GOOGLE_MAPS_BROWSER_KEY"),
       GOOGLE_MAPS_SERVER_KEY: Deno.env.get("GOOGLE_MAPS_SERVER_KEY")

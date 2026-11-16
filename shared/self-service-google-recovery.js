@@ -17,13 +17,13 @@ export function prepareGoogleRecovery(state,identity,now=Date.now(),requiredRole
  if(requiredRole&&!['customer','provider'].includes(requiredRole))fail('Choose a Customer or Provider account.');
  state.googleRecoveryChallenges=(state.googleRecoveryChallenges||[]).filter(c=>c.expiresAt>now);
  if(state.googleRecoveryChallenges.filter(c=>c.accountId===user.id&&c.createdAt>now-600000).length>=5)fail('Please wait a few minutes before verifying Google again.',429);
- const token=recoveryBytes(32).toString('hex');
- state.googleRecoveryChallenges.push({tokenHash:hashToken(token),accountId:user.id,email:user.email,subject:identity.subject,createdAt:now,expiresAt:now+600000,requiredRole,usedAt:null});
- return {user,token};
+ const token=recoveryBytes(32).toString('hex'),confirmationId=recoveryBytes(16).toString('hex');
+ state.googleRecoveryChallenges.push({id:confirmationId,tokenHash:hashToken(token),accountId:user.id,email:user.email,subject:identity.subject,createdAt:now,expiresAt:now+600000,requiredRole,usedAt:null});
+ return {user,token,confirmationId};
 }
-export function completeGoogleRecovery(state,token,now=Date.now()){
- if(typeof token!=='string'||!/^[a-f0-9]{64}$/.test(token))return null;
- const challenge=(state.googleRecoveryChallenges||[]).find(c=>c.tokenHash===hashToken(token)&&!c.usedAt&&c.expiresAt>now);
+export function completeGoogleRecovery(state,token,now=Date.now(),confirmationId){
+ if(typeof token!=='string'||!/^[a-f0-9]{64}$/.test(token)||typeof confirmationId!=='string'||!/^[a-f0-9]{32}$/.test(confirmationId))return null;
+ const challenge=(state.googleRecoveryChallenges||[]).find(c=>c.id===confirmationId&&c.tokenHash===hashToken(token)&&!c.usedAt&&c.expiresAt>now);
  if(!challenge)return null;
  const matches=(state.users||[]).filter(u=>u.id===challenge.accountId&&u.email===challenge.email);
  if(matches.length!==1)return null;

@@ -48,13 +48,13 @@ Deno.serve(async request=>{
    // These claims are read only after the token signature, audience, issuer, nonce and verified email passed.
    const claims=JSON.parse(Buffer.from(body.credential.split('.')[1],'base64url').toString('utf8'));
    identity.emailVerified=true;identity.emailAuthority=/@gmail\.com$/i.test(identity.email)?'gmail':typeof claims.hd==='string'&&claims.hd.trim()?'workspace':null;
-   const prepared=await update(state=>{const result=prepareGoogleRecovery(state,identity,Date.now(),body.accountRole||null);requiredRole(state,result.user,body.accountRole);return {token:result.token,user:profile(state,result.user)};});
+   const prepared=await update(state=>{const result=prepareGoogleRecovery(state,identity,Date.now(),body.accountRole||null);requiredRole(state,result.user,body.accountRole);return {token:result.token,confirmationId:result.confirmationId,user:profile(state,result.user)};});
    headers.append('Set-Cookie',cookie('campus_recovery_nonce','',0));headers.append('Set-Cookie',cookie('campus_google_recovery',prepared.token,600));
-   return reply({recovery:{name:prepared.user.name,email:identity.email,accountRole:prepared.user.accountRole}});
+   return reply({recovery:{confirmationId:prepared.confirmationId,name:prepared.user.name,email:identity.email,accountRole:prepared.user.accountRole}});
   }
   const token=randomBytes(32).toString('hex'),now=Date.now(),proof=readCookie(request,'campus_google_recovery');
   const user=await update(state=>{
-   const recovered=completeGoogleRecovery(state,proof,now);if(!recovered)fail('Recovery expired or could not be verified. Choose your Google account again.',401);
+   const recovered=completeGoogleRecovery(state,proof,now,body.confirmationId);if(!recovered)fail('Recovery expired or could not be verified. Choose your Google account again.',401);
    const u=recovered.user;requiredRole(state,u,recovered.requiredRole);
    const pair=(state.accountLinks||[]).find(p=>p.customer===u.id||p.provider===u.id);
    const accounts=[...new Set([u.id,...(pair?[pair.customer,pair.provider]:[])])].filter(id=>state.users.some(x=>x.id===id&&x.campus===u.campus&&x.status!=='suspended'));

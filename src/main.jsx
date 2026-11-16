@@ -55,7 +55,7 @@ function App(){
  const [guideOpen,setGuideOpen]=useState(false),[guideId,setGuideId]=useState('events');
  useEffect(()=>{const desktop=window.matchMedia('(min-width: 1024px)');const update=()=>{if(desktop.matches)setGuideOpen(false);};desktop.addEventListener('change',update);return()=>desktop.removeEventListener('change',update);},[]);
  const [foodPath,setFoodPath]=useState('all');
- const records=data.categoryRecords || defaultCategories,categories=records.filter(c=>c.visible!==false).map(c=>c.value),guide=data.guide || {menuItems:[],entries:[]};
+ const records=(data.categoryRecords?.length ? data.categoryRecords : defaultCategories),categories=records.filter(c=>c.visible!==false).map(c=>c.value),guide=data.guide || {menuItems:[],entries:[]};
  const [sessionStatus,setSessionStatus]=useState('checking');
  const [route,setRoute]=useState(()=>parseAppRoute(location.href));
  const routeRef=useRef(route),readyRef=useRef(false),dataRef=useRef(initial),authSubmittingRef=useRef(false);

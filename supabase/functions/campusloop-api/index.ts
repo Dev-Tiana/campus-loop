@@ -67,7 +67,7 @@ Deno.serve(async (request) => {
       marketplaceStore,
       BUCKET: bucket,
       PUBLIC_ORIGIN: Deno.env.get("CAMPUSLOOP_PUBLIC_ORIGIN") || "https://campus-loop-staging.vercel.app",
-      GOOGLE_CLIENT_ID: Deno.env.get("GOOGLE_CLIENT_ID"),
+      GOOGLE_CLIENT_ID: Deno.env.get("GOOGLE_CLIENT_ID") || "678659685763-5qhk2n9r18d9d1r46120ktdkd3glp26k.apps.googleusercontent.com",
       GOOGLE_MAPS_BROWSER_KEY: Deno.env.get("GOOGLE_MAPS_BROWSER_KEY"),
       GOOGLE_MAPS_SERVER_KEY: Deno.env.get("GOOGLE_MAPS_SERVER_KEY")
     });

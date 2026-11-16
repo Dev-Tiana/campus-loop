@@ -3,11 +3,33 @@
   "buildCommand": "npm run build:frontend",
   "outputDirectory": "dist",
   "rewrites": [
-    {"source": "/api/:path*", "destination": "https://qmyhjpjfcilngiijrjre.supabase.co/functions/v1/campusloop-api/api/:path*"},
-    {"source": "/app/:path*", "destination": "/index.html"},
-    {"source": "/admin/:path*", "destination": "/index.html"},
-    {"source": "/welcome", "destination": "/index.html"},
-    {"source": "/signin", "destination": "/index.html"},
-    {"source": "/signup/:path*", "destination": "/index.html"}
+    {
+      "source": "/api/recovery/:path*",
+      "destination": "https://qmyhjpjfcilngiijrjre.supabase.co/functions/v1/campusloop-recovery/api/recovery/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://qmyhjpjfcilngiijrjre.supabase.co/functions/v1/campusloop-api/api/:path*"
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/welcome",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/signin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/signup/:path*",
+      "destination": "/index.html"
+    }
   ]
 }

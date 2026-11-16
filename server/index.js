@@ -1,3 +1,4 @@
+import {recoverVerifiedGoogleAccount} from '../shared/google-recovery.js';
 import {appointmentReminders,defaultReminders,visibleAppointmentReminder} from '../shared/appointment-reminders.js';
 import {serviceAreas,allowsServiceLocation} from '../shared/service-location.js';
 import {cleaningPropertyTypes,cleaningAreas,matchesProperty,availableBooking,bookingTime,formatBookingTime,quoteTotal} from '../shared/booking-options.js';
@@ -229,6 +230,7 @@ app.post('/api/account/:action', async (req,res) => {
     const now=Date.now(),token=randomBytes(32).toString('hex');
     const user=await update(state=>{
       let u=state.users.find(u=>u.googleSub===identity.subject);
+      if(req.body.link!==true&&!u)u=recoverVerifiedGoogleAccount(state,identity,now);
       if(req.body.link===true){
         const current=auth(state,req);
         requireValue(current.email===identity.email,'Use the Google account with the same email as your Campus Loop account.');

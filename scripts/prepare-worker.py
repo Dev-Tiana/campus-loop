@@ -35,16 +35,21 @@ async function passwordHash(password,salt){
 export async function handleApi(request,env){
  const production=true;
  const process={env:{ADMIN_BOOTSTRAP_HASH:env.ADMIN_BOOTSTRAP_HASH,ALLOW_AGENTS:env.ALLOW_AGENTS,GOOGLE_CLIENT_ID:env.GOOGLE_CLIENT_ID,GOOGLE_MAPS_BROWSER_KEY:env.GOOGLE_MAPS_BROWSER_KEY,GOOGLE_MAPS_SERVER_KEY:env.GOOGLE_MAPS_SERVER_KEY}};
- if(!env.DB)throw Error('Database binding unavailable.');
- const initial=seed();
- await env.DB.prepare('INSERT OR IGNORE INTO marketplace (id,revision,state) VALUES (?,0,?)').bind('state',JSON.stringify(initial)).run();
- const read=async()=>JSON.parse((await env.DB.prepare('SELECT state FROM marketplace WHERE id=?').bind('state').first()).state);
+ const store=env.marketplaceStore || {
+  initialize:state=>env.DB.prepare('INSERT OR IGNORE INTO marketplace (id,revision,state) VALUES (?,0,?)').bind('state',JSON.stringify(state)).run(),
+  read:()=>env.DB.prepare('SELECT state,revision FROM marketplace WHERE id=?').bind('state').first(),
+  async write(state,revision){
+    const result=await env.DB.prepare('UPDATE marketplace SET state=?,revision=revision+1 WHERE id=? AND revision=?').bind(state,'state',revision).run();
+    return Boolean(result.meta.changes);
+  }
+ };
+ if(!await store.read())await store.initialize(seed());
+ const read=async()=>JSON.parse((await store.read()).state);
  async function update(action){
   for(let i=0;i<12;i++){
-   const doc=await env.DB.prepare('SELECT state,revision FROM marketplace WHERE id=?').bind('state').first();
+   const doc=await store.read();
    const state=JSON.parse(doc.state);const result=await action(state);
-   const write=await env.DB.prepare('UPDATE marketplace SET state=?,revision=revision+1 WHERE id=? AND revision=?').bind(JSON.stringify(state),'state',doc.revision).run();
-   if(write.meta.changes)return result;
+   if(await store.write(JSON.stringify(state),doc.revision))return result;
   }
   throw Object.assign(Error('Please retry that change.'),{status:409});
  }
@@ -56,7 +61,7 @@ export async function handleApi(request,env){
 tail="""
  const url=new URL(request.url);
  if(request.method==='POST'){
-  if(request.headers.get('sec-fetch-site')==='cross-site'||(request.headers.get('origin')&&request.headers.get('origin')!==url.origin))return Response.json({error:'Request origin unavailable.'},{status:403});
+  if(request.headers.get('sec-fetch-site')==='cross-site'||(request.headers.get('origin')&&request.headers.get('origin')!==(env.PUBLIC_ORIGIN || url.origin)))return Response.json({error:'Request origin unavailable.'},{status:403});
   if(Number(request.headers.get('content-length'))>(url.pathname==='/api/gallery-video'?maxVideoBytes:5000000))return Response.json({error:'Photo is too large.'},{status:413});
  }
  for(const route of routes){

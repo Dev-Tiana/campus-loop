@@ -12,14 +12,15 @@
     "test:hosted": "node --test worker/*.test.js",
     "test:entry": "node scripts/test-entry-render.mjs",
     "validate:guide": "node scripts/validate-guide.mjs",
-    "test:pwa": "node --test scripts/pwa-update.test.mjs"
+    "test:pwa": "node --test scripts/pwa-update.test.mjs",
+    "build:frontend": "vite build && node scripts/pwa-build.mjs"
   },
   "dependencies": {
     "express": "^5.1.0",
+    "lucide-react": "^0.468.0",
     "mongodb": "^6.17.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "lucide-react": "^0.468.0"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "vite": "^6.3.5"

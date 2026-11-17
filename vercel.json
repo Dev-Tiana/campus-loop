@@ -8,6 +8,10 @@
       "destination": "https://qmyhjpjfcilngiijrjre.supabase.co/functions/v1/campusloop-recovery/api/recovery/:path*"
     },
     {
+      "source": "/api/assistant",
+      "destination": "/api/assistant"
+    },
+    {
       "source": "/api/:path*",
       "destination": "https://qmyhjpjfcilngiijrjre.supabase.co/functions/v1/campusloop-api/api/:path*"
     },

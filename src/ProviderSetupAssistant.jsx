@@ -9,7 +9,7 @@ export default function ProviderSetupAssistant({user,businesses=[],listings=[],o
  const [reply,setReply]=useState('');
  const [asking,setAsking]=useState(false);
  const [aiStatus,setAiStatus]=useState('');
- async function ask(e){e.preventDefault();if(!question.trim()||asking)return;setAsking(true);setAiStatus('');try{const response=await fetch('/api/assistant',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:question.trim()})});const result=await response.json();if(!response.ok)throw new Error(result.error||'AI unavailable');setReply(result.answer);setAiStatus('AI response');}catch(err){setReply(answerProviderQuestion(question));setAiStatus((err.message||'AI unavailable')+' Showing basic guidance instead.');}finally{setAsking(false);}}
+ async function ask(e){e.preventDefault();if(!question.trim()||asking)return;setAsking(true);setAiStatus('');try{const response=await fetch('/api/assistant',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:question.trim()}),signal:AbortSignal.timeout(25000)});const result=await response.json();if(!response.ok)throw new Error(result.error||'AI unavailable');setReply(result.answer);setAiStatus('AI response');}catch(err){setReply(answerProviderQuestion(question));setAiStatus((err.name==='TimeoutError'?'The AI request took too long.':err.message||'AI unavailable')+' Showing basic guidance instead.');}finally{setAsking(false);}}
 
  useEffect(()=>{
   if(!user?.id||user.accountRole!=='provider')return;

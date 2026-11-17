@@ -55,7 +55,7 @@ export default function AccountDashboard({
      <Shortcut Icon={CalendarCheck} onClick={onAppointments}>Appointments</Shortcut>
      <Shortcut Icon={CircleHelp} onClick={onHelp}>Help and feedback</Shortcut>
      <Shortcut Icon={UserRound} onClick={onEditProfile}>Edit profile</Shortcut>
-     {provider&&<Shortcut Icon={Store} onClick={onManage}>Manage listings</Shortcut>}
+     {provider&&<Shortcut Icon={Store} onClick={onManage}>Manage businesses</Shortcut>}
      <Shortcut Icon={Search} onClick={onBrowse}>Browse marketplace</Shortcut>
      <Shortcut Icon={Bookmark} onClick={onSaved}>Saved listings{savedCount>0?' · '+savedCount:''}</Shortcut>
     </div>

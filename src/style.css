@@ -82,3 +82,5 @@
 @keyframes lumi-glow{0%,100%{box-shadow:0 6px 20px #0003}50%{box-shadow:0 5px 23px #d9a31b88}}
 @media(min-width:768px){.lumi-launcher{bottom:26px;right:26px}}
 @media(prefers-reduced-motion:reduce){.lumi-launcher{animation:none;transition:none}}
+
+.campus-update-notice{position:fixed;left:12px;right:12px;top:12px;z-index:1500;background:#fff8c6;border:2px solid #28251b;border-radius:14px;padding:14px;box-shadow:0 8px 32px #0004;display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:#28251b}.campus-update-notice span{flex:1 1 220px}.campus-update-notice button{background:#28251b;color:white;border:0;border-radius:9px;padding:10px 16px;font-weight:700;cursor:pointer}@media(min-width:800px){.campus-update-notice{left:50%;right:auto;transform:translateX(-50%);width:min(92vw,780px)}}

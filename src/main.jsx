@@ -239,7 +239,7 @@ function App(){
    <button className="brand" aria-label="Campus Loop home" onClick={()=>go('Explore')}><Logo/>{page==='Dashboard'&&<span className="cl-header-tagline">Campus Services Made Easy</span>}</button>
    <button className="campus" aria-label={'Campus: '+campusName} onClick={()=>open('campus')}><MapPin size={14}/><span className="campus-full">{campusName}</span><span className="campus-short">DELSU</span><ChevronDown size={12}/></button>
    <nav aria-label="Main navigation">{['Explore','Housing','Requests','Appointments'].map(p=><button key={p} className={page===p?'current':''} onClick={()=>go(p)}>{p}{p==='Requests' && incoming>0 && <b>{incoming}</b>}</button>)}</nav>
-   <div className="header-actions"><button className="icon-btn" title="Notifications" aria-label={'Notifications'+(unread?' · '+unread+' unread':'')} onClick={()=>go('Notifications')}><Bell size={19}/>{unread>0&&<b className="notification-count">{unread}</b>}</button>
+   <div className="header-actions"><button className="icon-btn cl-header-notifications" title="Notifications" aria-label={'Notifications'+(unread?' · '+unread+' unread':'')} onClick={()=>go('Notifications')}><Bell size={19}/>{unread>0&&<b className="notification-count">{unread}</b>}</button>
    <button className="dark account" aria-label={user?'Account menu · '+(user.accountRole || 'Role setup'):'Sign in'} onClick={()=>user?open('account-menu'):open('account')}>{user?<Avatar name={user.name} src={user.avatarUrl}/>: 'Sign in'}</button></div>
  </div></header>
  <div className={page==='Dashboard'?'marketplace-layout cl-dashboard-shell':'marketplace-layout'}>

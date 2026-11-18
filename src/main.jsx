@@ -242,7 +242,25 @@ function App(){
    <div className="header-actions"><button className="icon-btn" title="Notifications" aria-label={'Notifications'+(unread?' · '+unread+' unread':'')} onClick={()=>go('Notifications')}><Bell size={19}/>{unread>0&&<b className="notification-count">{unread}</b>}</button>
    <button className="dark account" aria-label={user?'Account menu · '+(user.accountRole || 'Role setup'):'Sign in'} onClick={()=>user?open('account-menu'):open('account')}>{user?user.name.split(' ')[0]:'Sign in'}</button></div>
  </div></header>
- <div className="marketplace-layout"><GuideSidebar items={guide.menuItems} activeId={page==='Guide'?guideId:null} onChoose={id=>navigate(guideHref(id))}/><main className="marketplace-content"><PwaPanel user={user}/><PhoneAlerts settings={page==='Notifications'}/><Announcements items={data.announcements}/>
+ <div className={page==='Dashboard'?'marketplace-layout cl-dashboard-shell':'marketplace-layout'}>
+ {page==='Dashboard'&&user&&<aside className="cl-shell-sidebar" aria-label="Dashboard navigation">
+  <div className="cl-shell-sidebar-title">CAMPUS LOOP</div>
+  <button className="cl-shell-active" onClick={()=>go('Dashboard')}><House size={19}/> Dashboard</button>
+  <button onClick={()=>go('Explore')}><Search size={19}/> Explore Services</button>
+  <div className="cl-shell-group">MY BUSINESS</div>
+  <button onClick={()=>go('My listings')}><Store size={19}/> My Listings</button>
+  <button onClick={()=>gated('business-edit',{setup:true})}><Plus size={19}/> Create Listing</button>
+  <button onClick={()=>go('Requests')}><BookOpen size={19}/> Requests &amp; Orders</button>
+  <button onClick={()=>go('Notifications')}><Bell size={19}/> Notifications</button>
+  <div className="cl-shell-group">ACCOUNT</div>
+  <button onClick={()=>open('edit-profile')}><Avatar name={user.name} src={user.avatarUrl}/> My Profile</button>
+  <button onClick={()=>open('help-center')}><MessageCircle size={19}/> Help &amp; Support</button>
+ </aside>}
+ {page!=='Dashboard'&&<GuideSidebar items={guide.menuItems} activeId={page==='Guide'?guideId:null} onChoose={id=>navigate(guideHref(id))}/>}
+ <main className={page==='Dashboard'?'marketplace-content cl-dashboard-content':'marketplace-content'}>
+ {page!=='Dashboard'&&<PwaPanel user={user}/>}
+ {page==='Notifications'&&<PhoneAlerts settings={true}/>}
+ {page!=='Dashboard'&&<Announcements items={data.announcements}/>
  {error&&!modal&&<p className="error" role="alert">{error}</p>}
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
  {page==='Explore' && <>

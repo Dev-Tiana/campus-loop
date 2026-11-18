@@ -166,3 +166,8 @@ header .header-inner{background:#fff}
 .cl-app-header .header-actions .account{width:34px;height:34px;min-width:34px}
 .cl-dashboard-footer{padding-bottom:78px!important;margin-bottom:0!important}
 }
+
+.cl-app-header .header-actions .cl-header-notifications{display:inline-flex!important;position:relative!important;visibility:visible!important;opacity:1!important;align-items:center;justify-content:center;flex:0 0 36px;width:36px;height:36px;padding:6px;color:#231631;background:transparent;border:0}
+.cl-app-header .header-actions .cl-header-notifications svg{display:block!important;width:22px;height:22px;stroke:currentColor}
+.cl-app-header .header-actions .cl-header-notifications .notification-count{position:absolute;top:0;right:0}
+@media(max-width:700px){.cl-app-header .header-actions{display:flex!important;align-items:center!important;flex-shrink:0!important}.cl-app-header .header-actions .cl-header-notifications{display:inline-flex!important;flex:0 0 32px;width:32px;height:34px}}

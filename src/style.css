@@ -171,3 +171,13 @@ header .header-inner{background:#fff}
 .cl-app-header .header-actions .cl-header-notifications svg{display:block!important;width:22px;height:22px;stroke:currentColor}
 .cl-app-header .header-actions .cl-header-notifications .notification-count{position:absolute;top:0;right:0}
 @media(max-width:700px){.cl-app-header .header-actions{display:flex!important;align-items:center!important;flex-shrink:0!important}.cl-app-header .header-actions .cl-header-notifications{display:inline-flex!important;flex:0 0 32px;width:32px;height:34px}}
+
+.cl-app-header .brand .loop-wordmark{display:block;white-space:nowrap}
+.cl-app-header .cl-header-tagline{font-size:.56rem!important;letter-spacing:-.015em!important;margin-left:42px!important;max-width:125px;white-space:nowrap}
+.cl-app-header .header-actions .account{aspect-ratio:1/1!important;flex-shrink:0!important;border-radius:9999px!important;border:2px solid #e8d8f5!important}
+.cl-app-header .header-actions .account>*{width:100%!important;height:100%!important;aspect-ratio:1/1!important;border-radius:9999px!important;object-fit:cover!important;overflow:hidden!important}
+.cl-settings-options{display:grid;gap:9px;margin-top:17px}
+.cl-settings-options button{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;background:#faf7fe;border:1px solid #e8ddf4;border-radius:12px;padding:13px;color:#39244e}
+.cl-settings-options strong,.cl-settings-options small{display:block}
+.cl-settings-options small{margin-top:4px;color:#756581;font-size:.78rem}
+@media(max-width:700px){.cl-app-header .cl-header-tagline{font-size:.49rem!important;margin-left:39px!important;max-width:115px}}

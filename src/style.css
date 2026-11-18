@@ -118,3 +118,23 @@ body:has(.campus-mobile-tabs) footer{padding-bottom:95px}
 .explore-search-action{display:flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:16px;background:#7026bf;color:white;font-weight:800;padding:0 24px}
 .explore-search-action:hover{background:#541594}
 @media(max-width:640px){.explore-discovery{gap:8px;margin:16px 0 22px}.explore-search{padding:0 12px}.explore-search input{min-height:50px;font-size:.86rem}.explore-search-action{padding:0 13px;border-radius:12px}}
+
+/* Approved visual system, replacing legacy header and bottom navigation */
+:root{--ink:#1b1231;--muted:#61556d;--line:#e9dff3;--orange:#7026bf}
+.campus-brand-logo{display:inline-flex;align-items:center;gap:8px;color:#401184}
+.campus-cap{display:grid;place-items:center;color:#7424ca;line-height:1}
+.campus-brand-logo .loop-wordmark{font-weight:850;letter-spacing:-.055em;color:#401184}
+.header-inner .brand{color:#401184}
+.header-actions .account{background:#7026bf;color:white;border-radius:13px}
+.header-actions .account:hover{background:#55169d}
+header .header-inner{background:#fff}
+.mobile-nav{display:none!important}
+.campus-mobile-tabs{display:none}
+@media(max-width:700px){
+.campus-mobile-tabs{display:grid}
+.header-inner{height:68px;padding-inline:15px;gap:10px}
+.header-inner .brand{font-size:21px}
+.campus-brand-logo .loop-wordmark{font-size:21px}
+.header-actions .account{min-height:42px;padding:8px 12px}
+.marketplace-content{padding-bottom:88px}
+}

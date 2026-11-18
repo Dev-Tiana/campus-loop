@@ -44,6 +44,8 @@ export default function EditForm({listing,photo,setPhoto,error,busy,onSend,busin
  const [category,setCategory]=useState(categoryRecords.find(c=>c.id===listing?.categoryId)?.value || listing?.category || serviceCategories.find(c=>c.visible!==false&&c.value===initialCategory)?.value || serviceCategories.find(c=>c.visible!==false&&(accountRole==='provider'||!accountRole||c.value==='Housing'))?.value || '');
  const [businessId,setBusinessId]=useState(listing?.businessId || initialBusinessId || '');
  const [title,setTitle]=useState(listing?.title || '');
+ const [description,setDescription]=useState(listing?.description || '');
+ const [aiDraft,setAiDraft]=useState(null),[aiBusy,setAiBusy]=useState(false),[aiError,setAiError]=useState('');
  const [pricingMode,setPricingMode]=useState(listing?.pricingMode || 'fixed');
  const [extras,setExtras]=useState(listing?.extras || []);
  const [coverUploadId,setCoverUploadId]=useState(listing?.flyerPhotoId || null);
@@ -76,6 +78,19 @@ export default function EditForm({listing,photo,setPhoto,error,busy,onSend,busin
  const housing=category==='Housing';
  function changeCategory(next){setFulfilment(['Pickup']);setDeliveryFee(0);setDeliveryCoverage(['Around Abraka']);setIngredients('');setPricingMode('fixed');setExtras([]);if(title===serviceType)setTitle('');setCategory(next);setServiceType('');setCustomServiceType('');setInclusions([]);setCustomInclusions([]);setPropertyType('');setAmenities([]);setCustomAmenities([]);setPreview(null);error('');}
  function chooseService(next){if(category===foodCategory&&next!=='Cook a meal'){setPricingMode('fixed');setExtras([]);}if((businessId||category===foodCategory&&next!=='Cook a meal')&&(!title||title===serviceType))setTitle(next==='Custom'?'':next);setServiceType(next);setInclusions([]);setCustomInclusions([]);setCustomServiceType('');error('');}
+ async function suggestListing(){
+  if(aiBusy)return;
+  const service=title.trim()||customServiceType.trim()||serviceType;
+  if(!service){setAiError('Enter your service name first.');return;}
+  setAiBusy(true);setAiError('');setAiDraft(null);
+  try{
+   const response=await fetch('/api/assistant',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'listing_draft',question:'Suggest a clear service title and accurate description for this provider listing. Use only the information supplied; leave unknown details out. Service: '+service.slice(0,80)+'. Category: '+category.slice(0,50)+'. Price: '+(price||'not specified')+'. Provider details: '+description.slice(0,220)}),signal:AbortSignal.timeout(25000)});
+   const result=await response.json();
+   if(!response.ok||!result.draft)throw Error(result.error||'Unable to prepare a draft.');
+   setAiDraft(result.draft);
+  }catch(err){setAiError(err?.name==='TimeoutError'?'AI took too long. Please try again.':err.message||'AI is unavailable.');}
+  finally{setAiBusy(false);}
+ }
  async function loadPhoto(file){
   if(!file)return;
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>12000000){error('Choose a JPG, PNG or WebP photo under 12 MB.');return;}
@@ -101,7 +116,8 @@ export default function EditForm({listing,photo,setPhoto,error,busy,onSend,busin
  {serviceType==='Custom'&&<Field label="Your service type" value={customServiceType} maxLength={80} onChange={e=>setCustomServiceType(e.target.value)} required/>}
  {serviceType&&<section key={category+serviceType} className="inclusions-section"><h3>What’s included</h3><p className="muted">Choose exactly what your price covers.</p>{serviceType!=='Custom'&&<Choices legend="Included in the price" options={servicePresets[category]?.[serviceType] || []} value={inclusions} onChange={setInclusions} multiple/>}<CustomOptions label="Custom inclusion" items={customInclusions} setItems={setCustomInclusions}/></section>}
  </>}
- <label>{housing?'Additional property details (optional)':'Additional service details (optional)'}<textarea name="description" maxLength={1500} defaultValue={listing?.description} placeholder={housing?'For example, when water is available':'Anything else a student should know'}/></label>
+ <label>{housing?'Additional property details (optional)':'Additional service details (optional)'}<textarea name="description" maxLength={1500} value={description} onChange={e=>setDescription(e.target.value)} placeholder={housing?'For example, when water is available':'Anything else a student should know'}/></label>
+ {!housing&&businessId&&<section style={{border:'1px solid #ddd',borderRadius:12,padding:12,marginTop:12}}><strong>AI listing writing assistant</strong><p className="muted">Get suggested wording for your service. Review everything before applying it. Your listing is never saved automatically.</p><button type="button" className="secondary" disabled={aiBusy} onClick={suggestListing}>{aiBusy?'Preparing suggestion…':'Suggest title and description'}</button>{aiError&&<p role="alert">{aiError}</p>}{aiDraft&&<div style={{marginTop:12}}><p><strong>Suggested title:</strong> {aiDraft.title}</p><p style={{whiteSpace:'pre-wrap'}}><strong>Suggested description:</strong> {aiDraft.description}</p><button type="button" className="secondary" onClick={()=>{setTitle(aiDraft.title);setDescription(aiDraft.description);setAiDraft(null);}}>Use these suggestions</button><button type="button" className="secondary" onClick={()=>setAiDraft(null)}>Discard</button></div>}</section>}
  {!housing&&!transport&&!menuFood&&<Choices legend="Pricing" options={['Set a price','Request a quote']} value={pricingMode==='quote'?'Request a quote':'Set a price'} onChange={v=>setPricingMode(v==='Request a quote'?'quote':'fixed')}/>}
  {(housing||transport||menuFood||pricingMode==='fixed')&&<Field label={housing?'Annual rent (₦)':transport?'Starting fare (₦)':'Service price (₦)'} name="price" type="number" min="0" max="100000000" step="1" value={price} onChange={e=>setPrice(e.target.value)} required/>}
  {housing?<>

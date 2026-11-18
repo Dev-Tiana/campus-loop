@@ -50,7 +50,7 @@ export default async function handler(req,res){
   if(!answer)return res.status(502).json({error:'No AI answer was returned. Please try again.'});
   if(draftMode){
    try{
-    const clean=answer.replace(/^\`\`\`(?:json)?\\s*/i,'').replace(/\\s*\`\`\`$/,'');
+    const clean=answer.replace(/^\`\`\`(?:json)?\s*/i,'').replace(/\s*\`\`\`$/,'');
     const parsed=JSON.parse(clean);
     const title=typeof parsed.title==='string'?parsed.title.trim().slice(0,80):'';
     const description=typeof parsed.description==='string'?parsed.description.trim().slice(0,1000):'';

@@ -260,7 +260,7 @@ function App(){
  <main className={page==='Dashboard'?'marketplace-content cl-dashboard-content':'marketplace-content'}>
  {page!=='Dashboard'&&<PwaPanel user={user}/>}
  {page==='Notifications'&&<PhoneAlerts settings={true}/>}
- {page!=='Dashboard'&&<Announcements items={data.announcements}/>
+ {page!=='Dashboard'&&<Announcements items={data.announcements}/>}
  {error&&!modal&&<p className="error" role="alert">{error}</p>}
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
  {page==='Explore' && <>

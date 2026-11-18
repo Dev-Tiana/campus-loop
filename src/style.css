@@ -138,3 +138,15 @@ header .header-inner{background:#fff}
 .header-actions .account{min-height:42px;padding:8px 12px}
 .marketplace-content{padding-bottom:88px}
 }
+
+/* New dedicated dashboard application shell */
+.cl-dashboard-shell{display:grid;grid-template-columns:232px minmax(0,1fr);align-items:start;gap:0;max-width:none;width:100%;margin:0;background:#faf8fe}
+.cl-dashboard-shell>.guide-sidebar{display:none}
+.cl-dashboard-content{width:100%;min-width:0;max-width:none;padding:20px clamp(16px,2vw,30px);margin:0}
+.cl-shell-sidebar{display:flex;flex-direction:column;gap:4px;min-height:calc(100vh - 80px);background:#fff;border-right:1px solid #eee6f4;padding:28px 14px}
+.cl-shell-sidebar-title{font-size:.76rem;letter-spacing:.08em;font-weight:900;color:#7022b9;padding:0 12px 20px}
+.cl-shell-sidebar button{width:100%;display:flex;align-items:center;gap:11px;text-align:left;min-height:43px;padding:10px 12px;background:transparent;border:0;border-radius:10px;color:#554663;font-size:.88rem;font-weight:700}
+.cl-shell-sidebar button:hover{background:#f4eafe}.cl-shell-sidebar .cl-shell-active{background:#eee2ff;color:#6b20b5}
+.cl-shell-sidebar .account-avatar{width:22px;height:22px}
+.cl-shell-group{font-size:.68rem;font-weight:850;letter-spacing:.09em;color:#9b8da8;padding:20px 12px 8px}
+@media(max-width:900px){.cl-dashboard-shell{display:block}.cl-shell-sidebar{display:none}.cl-dashboard-content{padding:12px 13px 20px}.cl-dashboard-shell .cl-dashboard{margin-top:0}}

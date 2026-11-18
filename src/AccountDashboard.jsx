@@ -27,45 +27,25 @@ export default function AccountDashboard({
   { label:'Bookings',value:bookings.length,Icon:CalendarCheck,onClick:onRequests },
   {label:'Saved listings',value:savedCount,Icon:Bookmark,onClick:onSaved}
  ];
- return <section className="account-dashboard">
-  <div className="account-dashboard-hero">
-
-   <div className="account-avatar-row account-dashboard-greeting"><h1>{ready?(firstName?'Welcome back, '+firstName+'! 👋':'Welcome back! 👋'):'Choose your role'}</h1></div>
-   <p>{provider?(unfinishedBusiness?'Your business page is ready. Add your first service so students can request it.':needsFirstService?'Set up your business and publish a service so students can find you.' :'Manage your business, requests, and campus services all in one place.'):ready?'Request a service or pick up where you left off.':'Choose how you want to use Campus Loop.'}</p>
-   <button className="account-dashboard-primary" onClick={!ready?onSetup:provider?onCreate:onRequest}>
-    <Plus size={19}/>{!ready?'Set up account roles':provider?(needsFirstService?'Add your first service':'Add a service'):'Request a service'}<ArrowRight size={17}/>
-   </button>
-  </div>
-  {ready&&<>
-
-   <h2 className="dashboard-overview-title">Dashboard overview</h2><div className="account-dashboard-stats" aria-label="Account overview">
-    {stats.map(({label,value,Icon,onClick})=><button key={label} className="account-dashboard-stat" onClick={onClick}>
-     <Icon size={17}/><strong>{value}</strong><span>{label}</span>
-    </button>)}
-   </div>
-   <section className="campus-quick-actions" aria-label="Quick actions"><h2>Quick actions</h2><div className="campus-quick-grid"><Shortcut Icon={Plus} onClick={!ready?onSetup:provider?onCreate:onRequest}>{provider?'Create a listing':'Request a service'}</Shortcut><Shortcut Icon={Store} onClick={provider?onManage:onBrowse}>{provider?'Manage listings':'Explore services'}</Shortcut><Shortcut Icon={ListChecks} onClick={onRequests}>{provider?'View requests':'My requests'}</Shortcut><Shortcut Icon={MessageCircle} onClick={onMessages}>Messages</Shortcut></div></section>
-   {provider&&<section className="dashboard-lumi" aria-label="Lumi business assistant"><span className="dashboard-lumi-icon"><Sparkles size={25}/></span><div><h2>Lumi <Sparkles size={17}/></h2><p>Your Campus Loop business assistant can help you improve your listings and answer setup questions.</p></div><button onClick={()=>document.querySelector('.lumi-launcher')?.click()}>Chat with Lumi <ArrowRight size={16}/></button></section>}
-   <div className="account-dashboard-grid">
-    <section className="account-dashboard-activity" aria-labelledby="dashboard-recent">
-     <div className="account-dashboard-section-head"><h2 id="dashboard-recent">{provider?'Recent incoming requests':'Recent activity'}</h2>{recent.length>0&&<button className="account-dashboard-link" onClick={onRequests}>View all <ArrowRight size={14}/></button>}</div>
-     {recent.length?<ul>{recent.slice(0,4).map(r=><li key={r.id}><button onClick={()=>onOpen(r)}>
-      <span><strong>{r.serviceType || r.categoryName || r.category}</strong><small>{activityTime(r.updatedAt || r.created)}</small></span>
-      <span className="account-dashboard-state">{requestStatus(r,!provider)}</span><ArrowRight size={15}/>
-     </button></li>)}</ul>:<div className="account-dashboard-empty"><Inbox size={21}/><div><strong>{provider?'No requests yet':'No activity yet'}</strong><p>{provider?'Matching requests will appear here when students ask for your services.':'Your requests and bookings will appear here.'}</p></div></div>}
-    </section>
-    <div className="account-dashboard-shortcuts"><h2>My account</h2>
-     <Shortcut Icon={CalendarCheck} onClick={onAppointments}>Appointments</Shortcut>
-     <Shortcut Icon={CircleHelp} onClick={onHelp}>Help and feedback</Shortcut>
-     <Shortcut Icon={UserRound} onClick={onEditProfile}>Edit profile</Shortcut>
-     {provider&&<Shortcut Icon={Store} onClick={onManage}>Manage businesses</Shortcut>}
-     <Shortcut Icon={Search} onClick={onBrowse}>Browse marketplace</Shortcut>
-     <Shortcut Icon={Bookmark} onClick={onSaved}>Saved listings{savedCount>0?' · '+savedCount:''}</Shortcut>
-    </div>
-   </div>
+ return <section className="campus-dashboard-v2">
+ <div className="campus-v2-main">
+  <section className="campus-v2-hero"><span>{campus} · {provider?'Business dashboard':'Student dashboard'}</span><h1>Welcome back, {firstName||'there'}!</h1><p>{provider?'Manage your campus business, listings, and service requests in one place.':'Find campus services and track your requests in one place.'}</p></section>
+  {!ready?<button onClick={onSetup}>Set up your account <ArrowRight size={16}/></button>:<>
+   <div className="campus-v2-metrics">{stats.map(({label,value,Icon,onClick})=><button key={label} onClick={onClick}><Icon size={23}/><strong>{value}</strong><span>{label}</span></button>)}</div>
+   <section className="campus-v2-actions"><h2>Quick actions</h2><div className="campus-v2-action-grid">
+    <button onClick={provider?onCreate:onRequest}><Plus size={25}/><span>{provider?'Create a listing':'Request service'}</span></button>
+    <button onClick={provider?onManage:onBrowse}><Store size={25}/><span>{provider?'Manage listings':'Explore services'}</span></button>
+    <button onClick={onRequests}><ListChecks size={25}/><span>View requests</span></button>
+    <button onClick={onMessages}><MessageCircle size={25}/><span>Messages</span></button>
+   </div></section>
+   {provider&&<div className="campus-v2-lumi-mobile"><LumiPanel/></div>}
+   <section className="campus-v2-recent"><header><h2>{provider?'Recent service requests':'Recent activity'}</h2><button onClick={onRequests}>View all <ArrowRight size={15}/></button></header>
+    {recent.length?<ul>{recent.slice(0,4).map(r=><li key={r.id}><button onClick={()=>onOpen(r)}><span><strong>{r.serviceType||r.categoryName||r.category}</strong><small>{activityTime(r.updatedAt||r.created)}</small></span><span>{requestStatus(r,!provider)}</span><ArrowRight size={16}/></button></li>)}</ul>:<div className="campus-v2-empty"><Inbox size={23}/><div><strong>No requests yet</strong><p>{provider?'New service requests will appear here.':'Your service requests will appear here.'}</p></div></div>}
+   </section>
   </>}
+ </div>
+ <aside className="campus-v2-aside">{provider&&<LumiPanel/>}<section className="campus-v2-account"><h2>My account</h2><button onClick={onEditProfile}><UserRound size={18}/> Edit profile</button><button onClick={onAppointments}><CalendarCheck size={18}/> Appointments</button><button onClick={onSaved}><Bookmark size={18}/> Saved listings</button><button onClick={onHelp}><CircleHelp size={18}/> Help and support</button></section></aside>
  </section>;
 }
 
-function Shortcut({Icon,onClick,children}){
- return <button className="account-dashboard-shortcut" onClick={onClick}><Icon size={18}/><span>{children}</span><ArrowUpRight size={16}/></button>;
-}
+function LumiPanel(){return <section className="campus-v2-lumi"><Sparkles size={27}/><div><h2>Meet Lumi</h2><p>Your Campus Loop business assistant can help with listings and setup.</p></div><button onClick={()=>document.querySelector('.lumi-launcher')?.click()}>Chat with Lumi <ArrowRight size={16}/></button></section>;}

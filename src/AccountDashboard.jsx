@@ -48,7 +48,7 @@ export default function AccountDashboard({user,campus,requests=[],listings=[],bu
     {showMoreActions&&<div className="cl-more-actions"><button onClick={onRequests}><ListChecks size={18}/> View Requests</button><button onClick={onAppointments}><CalendarCheck size={18}/> Appointments</button><button onClick={onSaved}><Bookmark size={18}/> Saved Listings</button><button onClick={onHelp}><HelpCircle size={18}/> Help and Support</button></div>}
    </section>
    <section className="cl-lumi cl-lumi-mobile" aria-label="Lumi assistant">
-    <div className="cl-lumi-top"><span className="cl-lumi-symbol"><Sparkles size={24}/></span><div><h2>Meet Lumi <Sparkles size={15}/></h2><p>Your Campus Loop assistant is here to help you get started.</p></div></div>
+    <div className="cl-lumi-top"><span className="cl-lumi-symbol"><img src="/images/lumi-assistant.svg" alt="Lumi robot assistant"/></span><div><h2>Meet Lumi <Sparkles size={15}/></h2><p>Your Campus Loop assistant is here to help you get started.</p></div></div>
     <button onClick={()=>document.querySelector('.lumi-launcher')?.click()}>Chat with Lumi <ArrowRight size={16}/></button>
    </section>
    <section className="cl-recent" aria-label="Recent service requests">
@@ -57,6 +57,6 @@ export default function AccountDashboard({user,campus,requests=[],listings=[],bu
    </section>
    <section className="cl-extra"><h2>More options</h2><button onClick={onAppointments}><CalendarCheck size={18}/> Appointments</button><button onClick={onEditProfile}><UserRound size={18}/> Edit Profile</button><button onClick={onHelp}><HelpCircle size={18}/> Help and Support</button><button onClick={onSaved}><Bookmark size={18}/> Saved Listings</button></section>
   </div>
-  <aside className="cl-dashboard-aside"><section className="cl-lumi"><div className="cl-lumi-top"><span className="cl-lumi-symbol"><Sparkles size={24}/></span><div><h2>Meet Lumi</h2><p>Your Campus Loop assistant can help with listings and requests.</p></div></div><button onClick={()=>document.querySelector('.lumi-launcher')?.click()}>Chat with Lumi <ArrowRight size={16}/></button></section><section className="cl-aside-tip"><h2>Campus Tip</h2><p>Keep your listings up to date so students know what you offer.</p><button onClick={provider?onManage:onBrowse}>{provider?'Manage listings':'Explore services'} <ArrowRight size={15}/></button></section></aside>
+  <aside className="cl-dashboard-aside"><section className="cl-lumi"><div className="cl-lumi-top"><span className="cl-lumi-symbol"><img src="/images/lumi-assistant.svg" alt="Lumi robot assistant"/></span><div><h2>Meet Lumi</h2><p>Your Campus Loop assistant can help with listings and requests.</p></div></div><button onClick={()=>document.querySelector('.lumi-launcher')?.click()}>Chat with Lumi <ArrowRight size={16}/></button></section><section className="cl-aside-tip"><h2>Campus Tip</h2><p>Keep your listings up to date so students know what you offer.</p><button onClick={provider?onManage:onBrowse}>{provider?'Manage listings':'Explore services'} <ArrowRight size={15}/></button></section></aside>
  </div>;
 }

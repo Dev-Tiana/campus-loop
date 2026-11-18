@@ -1,7 +1,5 @@
-import {AccountWalkthrough} from './Walkthrough.jsx';
-import {Avatar} from './ProfilePhoto.jsx';
 import React from 'react';
-import {ArrowRight, ArrowUpRight, Bookmark, CalendarCheck, Inbox, MapPin, CircleHelp, Plus, Search, Store, UserRound, MessageCircle, ListChecks, Star, Sparkles} from 'lucide-react';
+import {ArrowRight, ArrowUpRight, Bookmark, CalendarCheck, Inbox, CircleHelp, Plus, Search, Store, UserRound, MessageCircle, ListChecks, Sparkles} from 'lucide-react';
 import {activityTime, requestStatus} from './RequestTracking.jsx';
 import './account-dashboard.css';
 
@@ -40,7 +38,7 @@ export default function AccountDashboard({
   </div>
   {ready&&<>
 
-   <div className="account-dashboard-stats" aria-label="Account overview">
+   <h2 className="dashboard-overview-title">Dashboard overview</h2><div className="account-dashboard-stats" aria-label="Account overview">
     {stats.map(({label,value,Icon,onClick})=><button key={label} className="account-dashboard-stat" onClick={onClick}>
      <Icon size={17}/><strong>{value}</strong><span>{label}</span>
     </button>)}

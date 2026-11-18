@@ -35,3 +35,8 @@
 .cl-metric span{font-size:.69rem!important;line-height:1.12!important}
 .cl-metrics{gap:7px!important}
 }
+
+.cl-action-icon,.cl-create-icon{display:grid;place-items:center;width:37px;height:37px;border-radius:11px}
+.cl-create-icon{background:#4b117e;color:white}
+.cl-create-icon svg{color:white!important;stroke-width:3}
+@media(max-width:700px){.cl-action-icon,.cl-create-icon{width:32px;height:32px;border-radius:9px}.cl-create-icon svg{width:23px;height:23px}}

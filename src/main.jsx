@@ -293,7 +293,7 @@ function App(){
  {media&&<MediaViewer {...media} onClose={()=>setMedia(null)}/>}
  {gallery&&<Gallery listing={gallery} videoFirst={gallery.videoFirst} onClose={()=>setGallery(null)}/>}
  <footer><Logo/><span>DELSU Abraka</span><button onClick={()=>{setPhoto('');gated('business-edit',{setup:true});}}>Offer a service <ArrowUpRight size={15}/></button></footer>
- <div className="mobile-nav" aria-label="Mobile navigation">{[['Explore',Search],['Housing',House],['Requests',MessageCircle],['Notifications',Bell],['Dashboard',Store]].map(([p,Icon])=><button key={p} className={page===p?'current':''} onClick={()=>go(p)}><Icon size={19}/>{p==='Dashboard'?'Account':p==='Notifications'?'Alerts':p}{p==='Notifications'&&unread>0?<b aria-label={unread+' unread notifications'}>{unread}</b>:p==='Requests'&&incoming>0?<b>{incoming}</b>:null}</button>)}</div>
+
  {toast&&<div className="toast" role="status"><Check size={18}/>{toast}</div>}
  {modal && <div className="overlay" style={{display:authPrompt?'none':undefined}} onClick={e=>{if(e.target===e.currentTarget)close();}}><div key={modal.firstService||modal.type==='service-published'?modal.type:undefined} className="dialog" role="dialog" aria-modal="true" aria-label="Campus Loop form">
  <button className="icon-btn close" onClick={close} aria-label="Close"><X size={22}/></button>

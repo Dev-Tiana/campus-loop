@@ -84,7 +84,7 @@ export default function EditForm({listing,photo,setPhoto,error,busy,onSend,busin
   if(!service){setAiError('Enter your service name first.');return;}
   setAiBusy(true);setAiError('');setAiDraft(null);
   try{
-   const response=await fetch('/api/assistant',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'listing_draft',question:'Suggest a clear service title and accurate description for this provider listing. Use only the information supplied; leave unknown details out. Service: '+service.slice(0,80)+'. Category: '+category.slice(0,50)+'. Price: '+(price||'not specified')+'. Provider details: '+description.slice(0,220)}),signal:AbortSignal.timeout(25000)});
+   const response=await fetch('/api/assistant',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'listing_draft',question:'Suggest a clear service title and accurate description for this provider listing. Use only the information supplied; leave unknown details out. Service: '+service.slice(0,80)+'. Category: '+category.slice(0,50)+'. Price: '+(price||'not specified')+'. Provider details: '+description.slice(0,100)}),signal:AbortSignal.timeout(25000)});
    const result=await response.json();
    if(!response.ok||!result.draft)throw Error(result.error||'Unable to prepare a draft.');
    setAiDraft(result.draft);

@@ -1,12 +1,12 @@
 import {AccountWalkthrough} from './Walkthrough.jsx';
 import {Avatar} from './ProfilePhoto.jsx';
 import React from 'react';
-import {ArrowRight, ArrowUpRight, Bookmark, CalendarCheck, Inbox, MapPin, CircleHelp, Plus, Search, Store, UserRound} from 'lucide-react';
+import {ArrowRight, ArrowUpRight, Bookmark, CalendarCheck, Inbox, MapPin, CircleHelp, Plus, Search, Store, UserRound, MessageCircle, ListChecks} from 'lucide-react';
 import {activityTime, requestStatus} from './RequestTracking.jsx';
 import './account-dashboard.css';
 
 export default function AccountDashboard({
- user,campus,requests,listings,unfinishedBusiness,savedCount,onRequest,onCreate,onManage,onRequests,onBrowse,onSaved,onSetup,onOpen,onEditProfile,onAppointments,onHelp
+ user,campus,requests,listings,unfinishedBusiness,savedCount,onRequest,onCreate,onManage,onRequests,onBrowse,onSaved,onSetup,onOpen,onEditProfile,onAppointments,onHelp,onMessages
 }){
  const provider=user.accountRole==='provider';
  const ready=!!user.accountRole;
@@ -30,7 +30,7 @@ export default function AccountDashboard({
  return <section className="account-dashboard">
   <div className="account-dashboard-hero">
    <div className="account-dashboard-context"><MapPin size={14}/>{campus}<span>·</span>{provider?'Provider account':ready?'Customer account':'Account setup'}</div>
-   <div className="account-avatar-row account-dashboard-greeting"><Avatar name={user.name} src={user.avatarUrl}/><h1>{ready?(firstName?'Hi, '+firstName+'.':'Welcome back.'):'Choose your role'}</h1></div>
+   <div className="account-avatar-row account-dashboard-greeting"><Avatar name={user.name} src={user.avatarUrl}/><h1>{ready?(firstName?'Welcome back, '+firstName+'!':'Welcome back!'):'Choose your role'}</h1></div>
    <p>{provider?(unfinishedBusiness?'Your business page is ready. Add your first service so students can request it.':needsFirstService?'Set up your business and publish a service so students can find you.':'Manage your services and see which requests need a reply.'):ready?'Request a service or pick up where you left off.':'Choose how you want to use Campus Loop.'}</p>
    <button className="account-dashboard-primary" onClick={!ready?onSetup:provider?onCreate:onRequest}>
     <Plus size={19}/>{!ready?'Set up account roles':provider?(needsFirstService?'Add your first service':'Add a service'):'Request a service'}<ArrowRight size={17}/>
@@ -43,6 +43,7 @@ export default function AccountDashboard({
      <Icon size={17}/><strong>{value}</strong><span>{label}</span>
     </button>)}
    </div>
+   <section className="campus-quick-actions" aria-label="Quick actions"><h2>Quick actions</h2><div className="campus-quick-grid"><Shortcut Icon={Plus} onClick={!ready?onSetup:provider?onCreate:onRequest}>{provider?'Create a listing':'Request a service'}</Shortcut><Shortcut Icon={Store} onClick={provider?onManage:onBrowse}>{provider?'Manage listings':'Explore services'}</Shortcut><Shortcut Icon={ListChecks} onClick={onRequests}>{provider?'View requests':'My requests'}</Shortcut><Shortcut Icon={MessageCircle} onClick={onMessages}>Messages</Shortcut></div></section>
    <div className="account-dashboard-grid">
     <section className="account-dashboard-activity" aria-labelledby="dashboard-recent">
      <div className="account-dashboard-section-head"><h2 id="dashboard-recent">{provider?'Recent incoming requests':'Recent activity'}</h2>{recent.length>0&&<button className="account-dashboard-link" onClick={onRequests}>View all <ArrowRight size={14}/></button>}</div>

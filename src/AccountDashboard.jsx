@@ -31,15 +31,15 @@ export default function AccountDashboard({
  ];
  return <section className="account-dashboard">
   <div className="account-dashboard-hero">
-   <div className="account-dashboard-context"><MapPin size={14}/>{campus}<span>·</span>{provider?'Provider account':ready?'Customer account':'Account setup'}</div>
-   <div className="account-avatar-row account-dashboard-greeting"><Avatar name={user.name} src={user.avatarUrl}/><h1>{ready?(firstName?'Welcome back, '+firstName+'!':'Welcome back!'):'Choose your role'}</h1></div>
-   <p>{provider?(unfinishedBusiness?'Your business page is ready. Add your first service so students can request it.':needsFirstService?'Set up your business and publish a service so students can find you.':'Manage your services and see which requests need a reply.'):ready?'Request a service or pick up where you left off.':'Choose how you want to use Campus Loop.'}</p>
+
+   <div className="account-avatar-row account-dashboard-greeting"><h1>{ready?(firstName?'Welcome back, '+firstName+'! 👋':'Welcome back! 👋'):'Choose your role'}</h1></div>
+   <p>{provider?(unfinishedBusiness?'Your business page is ready. Add your first service so students can request it.':needsFirstService?'Set up your business and publish a service so students can find you.' :'Manage your business, requests, and campus services all in one place.'):ready?'Request a service or pick up where you left off.':'Choose how you want to use Campus Loop.'}</p>
    <button className="account-dashboard-primary" onClick={!ready?onSetup:provider?onCreate:onRequest}>
     <Plus size={19}/>{!ready?'Set up account roles':provider?(needsFirstService?'Add your first service':'Add a service'):'Request a service'}<ArrowRight size={17}/>
    </button>
   </div>
   {ready&&<>
-   <AccountWalkthrough key={user.id+':'+user.accountRole} role={provider?'provider':'customer'} accountId={user.id}/>
+
    <div className="account-dashboard-stats" aria-label="Account overview">
     {stats.map(({label,value,Icon,onClick})=><button key={label} className="account-dashboard-stat" onClick={onClick}>
      <Icon size={17}/><strong>{value}</strong><span>{label}</span>
@@ -55,7 +55,7 @@ export default function AccountDashboard({
       <span className="account-dashboard-state">{requestStatus(r,!provider)}</span><ArrowRight size={15}/>
      </button></li>)}</ul>:<div className="account-dashboard-empty"><Inbox size={21}/><div><strong>{provider?'No requests yet':'No activity yet'}</strong><p>{provider?'Matching requests will appear here when students ask for your services.':'Your requests and bookings will appear here.'}</p></div></div>}
     </section>
-    <div className="account-dashboard-shortcuts">
+    <div className="account-dashboard-shortcuts"><h2>My account</h2>
      <Shortcut Icon={CalendarCheck} onClick={onAppointments}>Appointments</Shortcut>
      <Shortcut Icon={CircleHelp} onClick={onHelp}>Help and feedback</Shortcut>
      <Shortcut Icon={UserRound} onClick={onEditProfile}>Edit profile</Shortcut>

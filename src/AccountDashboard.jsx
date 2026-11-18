@@ -1,12 +1,12 @@
 import {AccountWalkthrough} from './Walkthrough.jsx';
 import {Avatar} from './ProfilePhoto.jsx';
 import React from 'react';
-import {ArrowRight, ArrowUpRight, Bookmark, CalendarCheck, Inbox, MapPin, CircleHelp, Plus, Search, Store, UserRound, MessageCircle, ListChecks} from 'lucide-react';
+import {ArrowRight, ArrowUpRight, Bookmark, CalendarCheck, Inbox, MapPin, CircleHelp, Plus, Search, Store, UserRound, MessageCircle, ListChecks, Star, Sparkles} from 'lucide-react';
 import {activityTime, requestStatus} from './RequestTracking.jsx';
 import './account-dashboard.css';
 
 export default function AccountDashboard({
- user,campus,requests,listings,unfinishedBusiness,savedCount,onRequest,onCreate,onManage,onRequests,onBrowse,onSaved,onSetup,onOpen,onEditProfile,onAppointments,onHelp,onMessages
+ user,campus,requests,listings,businesses=[],unfinishedBusiness,savedCount,onRequest,onCreate,onManage,onRequests,onBrowse,onSaved,onSetup,onOpen,onEditProfile,onAppointments,onHelp,onMessages
 }){
  const provider=user.accountRole==='provider';
  const ready=!!user.accountRole;
@@ -19,13 +19,15 @@ export default function AccountDashboard({
  const bookings=recent.filter(r=>r.status==='Booked'||r.status==='Completed');
  const liveListings=listings.filter(l=>l.available&&l.category!=='Housing');
  const stats=provider?[
+  {label:'My businesses',value:businesses.length,Icon:Store,onClick:onManage},
   { label:'New requests',value:active.length,Icon:Inbox,onClick:onRequests },
   { label:'Active listings',value:liveListings.length,Icon:Store,onClick:onManage },
-  { label:'Bookings',value:bookings.length,Icon:CalendarCheck,onClick:onRequests }
+  { label:'Completed',value:bookings.length,Icon:CalendarCheck,onClick:onRequests }
  ]:[
   { label:'Open requests',value:active.length,Icon:Inbox,onClick:onRequests },
   { label:'With offers',value:withOffers.length,Icon:Store,onClick:onRequests },
-  { label:'Bookings',value:bookings.length,Icon:CalendarCheck,onClick:onRequests }
+  { label:'Bookings',value:bookings.length,Icon:CalendarCheck,onClick:onRequests },
+  {label:'Saved listings',value:savedCount,Icon:Bookmark,onClick:onSaved}
  ];
  return <section className="account-dashboard">
   <div className="account-dashboard-hero">
@@ -44,6 +46,7 @@ export default function AccountDashboard({
     </button>)}
    </div>
    <section className="campus-quick-actions" aria-label="Quick actions"><h2>Quick actions</h2><div className="campus-quick-grid"><Shortcut Icon={Plus} onClick={!ready?onSetup:provider?onCreate:onRequest}>{provider?'Create a listing':'Request a service'}</Shortcut><Shortcut Icon={Store} onClick={provider?onManage:onBrowse}>{provider?'Manage listings':'Explore services'}</Shortcut><Shortcut Icon={ListChecks} onClick={onRequests}>{provider?'View requests':'My requests'}</Shortcut><Shortcut Icon={MessageCircle} onClick={onMessages}>Messages</Shortcut></div></section>
+   {provider&&<section className="dashboard-lumi" aria-label="Lumi business assistant"><span className="dashboard-lumi-icon"><Sparkles size={25}/></span><div><h2>Lumi <Sparkles size={17}/></h2><p>Your Campus Loop business assistant can help you improve your listings and answer setup questions.</p></div><button onClick={()=>document.querySelector('.lumi-launcher')?.click()}>Chat with Lumi <ArrowRight size={16}/></button></section>}
    <div className="account-dashboard-grid">
     <section className="account-dashboard-activity" aria-labelledby="dashboard-recent">
      <div className="account-dashboard-section-head"><h2 id="dashboard-recent">{provider?'Recent incoming requests':'Recent activity'}</h2>{recent.length>0&&<button className="account-dashboard-link" onClick={onRequests}>View all <ArrowRight size={14}/></button>}</div>

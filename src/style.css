@@ -209,3 +209,24 @@ header .header-inner{background:#fff}
 .cl-unified-content .explore-discovery{padding:8px}
 .cl-unified-content .row-actions{flex-wrap:wrap}
 }
+
+/* Campus Loop redesign: approved Explore composition, isolated from legacy hero */
+.cl-unified-content:has(.cl-explore-hero){max-width:1120px}
+.cl-explore-hero{min-height:155px;display:flex;align-items:center;position:relative;overflow:hidden;border-radius:18px;background:linear-gradient(105deg,#5510a0 0%,#7621c2 58%,#b568df 100%);color:white;padding:24px 26px;margin-bottom:14px}
+.cl-explore-hero-copy{position:relative;z-index:2;max-width:65%}
+.cl-explore-hero h1{font-size:clamp(2rem,4vw,2.8rem);font-weight:850;line-height:1.05;letter-spacing:-.04em;margin:0 0 9px;color:white}
+.cl-explore-hero p{font-size:1rem;line-height:1.42;color:white}
+.cl-explore-hero-art{position:absolute;right:0;top:0;bottom:0;width:49%;background:linear-gradient(90deg,#7621c2 0%,transparent 55%),url('/images/hero.webp') center/cover no-repeat;opacity:.8}
+.cl-explore-categories{margin:14px 0 24px}
+.cl-category-scroll{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:3px 2px 8px}
+.cl-category-scroll::-webkit-scrollbar{display:none}
+.cl-category-scroll button{display:flex;flex:0 0 94px;min-height:82px;flex-direction:column;justify-content:center;align-items:center;gap:7px;border:1px solid #e6dbf1;border-radius:16px;background:#fff;color:#5510a0;box-shadow:0 3px 9px #25103d0a}
+.cl-category-scroll button strong{font-size:.78rem;font-weight:750;color:#23162f}
+.cl-category-scroll button.active{background:linear-gradient(145deg,#a13be0,#6513b0);border-color:#7521bd;color:#fff;box-shadow:0 6px 13px #6b18b533}
+.cl-category-scroll button.active strong{color:#fff}
+.cl-category-icon{font-size:27px;line-height:1}
+.cl-unified-content:has(.cl-explore-hero) .explore-discovery{display:flex;gap:10px;align-items:center;background:transparent;border:0;padding:0;box-shadow:none;margin:0}
+.cl-unified-content:has(.cl-explore-hero) .explore-search{flex:1;min-width:0;border:1px solid #d9c3e9;background:white;border-radius:15px;min-height:52px}
+.cl-unified-content:has(.cl-explore-hero) .explore-search-action{min-height:52px;border-radius:14px;background:#6a17b4;color:#fff}
+.cl-unified-content:has(.cl-explore-hero) #results{margin-top:22px}
+@media(max-width:700px){.cl-explore-hero{min-height:135px;padding:18px 17px;border-radius:16px}.cl-explore-hero-copy{max-width:73%}.cl-explore-hero h1{font-size:2rem}.cl-explore-hero p{font-size:.88rem;line-height:1.4}.cl-explore-hero-art{width:47%}.cl-category-scroll{gap:8px}.cl-category-scroll button{flex-basis:78px;min-height:77px;border-radius:14px}.cl-category-scroll button strong{font-size:.7rem}.cl-unified-content:has(.cl-explore-hero) .explore-search-action{font-size:0;min-width:48px;padding:10px}.cl-unified-content:has(.cl-explore-hero) .explore-search-action svg{width:20px}}

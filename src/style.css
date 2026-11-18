@@ -181,3 +181,31 @@ header .header-inner{background:#fff}
 .cl-settings-options strong,.cl-settings-options small{display:block}
 .cl-settings-options small{margin-top:4px;color:#756581;font-size:.78rem}
 @media(max-width:700px){.cl-app-header .cl-header-tagline{font-size:.49rem!important;margin-left:39px!important;max-width:115px}}
+
+/* Shared student workspace styling across Explore, Requests, Listings and supporting pages */
+.cl-unified-shell{width:100%;max-width:none;margin:0;background:#faf8fe;min-height:calc(100vh - 76px)}
+.cl-unified-shell>.guide-sidebar{display:none}
+.cl-unified-content{width:min(1160px,100%);max-width:1160px;margin:0 auto;padding:24px 22px 44px;min-width:0}
+.cl-unified-content .workspace,.cl-unified-content .business-manager,.cl-unified-content .commerce-entry,.cl-unified-content .provider-banner,.cl-unified-content .explore-discovery,.cl-unified-content .living-entry,.cl-unified-content #results{border-radius:16px}
+.cl-unified-content .workspace{background:#fff;border:1px solid #eee6f4;padding:20px;box-shadow:0 4px 20px #32134a08}
+.cl-unified-content .section-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.cl-unified-content .section-head h1,.cl-unified-content .section-head h2{color:#32134c;letter-spacing:-.025em}
+.cl-unified-content .section-head p{color:#746681}
+.cl-unified-content .tabs{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}
+.cl-unified-content .tabs button{border-radius:10px;padding:9px 14px}
+.cl-unified-content .tabs button.selected{background:#55168c;color:white}
+.cl-unified-content .business-manager{background:#fff;border:1px solid #eee6f4;padding:18px;margin:12px 0}
+.cl-unified-content .explore-discovery{background:#fff;border:1px solid #e9dff3;padding:10px;box-shadow:0 5px 20px #32134a08}
+.cl-unified-content .living-entry{display:flex;gap:10px;flex-wrap:wrap}
+.cl-unified-content button.dark{background:#521287;color:#fff;border-radius:10px}
+@media(max-width:700px){
+.cl-unified-content{padding:12px 13px 88px}
+.cl-unified-content .workspace{padding:13px;border-radius:14px}
+.cl-unified-content .business-manager{padding:12px}
+.cl-unified-content .section-head{align-items:flex-start}
+.cl-unified-content .section-head h1{font-size:1.32rem}
+.cl-unified-content .section-head h2{font-size:1.16rem}
+.cl-unified-content .section-head p{font-size:.83rem}
+.cl-unified-content .explore-discovery{padding:8px}
+.cl-unified-content .row-actions{flex-wrap:wrap}
+}

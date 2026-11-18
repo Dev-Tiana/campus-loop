@@ -247,6 +247,7 @@ function App(){
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
  {page==='Explore' && <>
    <MarketplaceHero onRequest={()=>request()} onOffer={()=>gated('business-edit',{setup:true})}/>
+   <div className="explore-discovery"><label className="explore-search"><Search size={21}/><input aria-label="Search campus services" value={query} onChange={e=>setQuery(e.target.value)} placeholder="What service are you looking for?"/></label><button className="explore-search-action" onClick={()=>document.getElementById('results')?.scrollIntoView({behavior:'smooth',block:'start'})}>Search <ArrowRight size={18}/></button></div>
    <ContentPlacements ads={data.ads} placement="main"/><CompactCategories records={records} categories={categories} category={category} onChoose={choose}/>
    <div className="living-entry"><button className="secondary" onClick={()=>go('Housing')}>Browse housing</button><button className="secondary" onClick={()=>{go('Housing');requestAnimationFrame(()=>document.getElementById('roommates')?.scrollIntoView({block:'start'}));}}>Find a roommate</button></div>
    {category==='Food & Cooking'&&<section className="commerce-entry"><h2>Food &amp; Cooking</h2><div className="row-actions"><button className="dark" onClick={()=>gated('request',{category:'Food & Cooking'})}>Request a cook</button><button className="secondary" onClick={()=>{setFoodPath('menu');setQuery('');document.getElementById('results')?.scrollIntoView();}}>Order food</button></div></section>}

@@ -26,7 +26,7 @@ export default function AccountDashboard({user,campus,requests=[],listings=[],bu
   ['Saved Listings',savedCount,Bookmark,onSaved]
  ];
  const actions=provider?[
-  ['Create Listing',Plus,onCreate],['Manage Listings',Store,onManage],['Messages',MessageCircle,onMessages],['More Services',ListChecks,()=>setShowMoreActions(v=>!v)]
+  ['Create Listing',Plus,onCreate],['Manage Listings',Store,onManage],['Messages',MessageCircle,onMessages],['View More',ListChecks,()=>setShowMoreActions(v=>!v)]
  ]:[
   ['Request Service',Plus,onRequest],['Explore Services',Search,onBrowse],['Messages',MessageCircle,onMessages],['More Services',ListChecks,()=>setShowMoreActions(v=>!v)]
  ];
@@ -44,8 +44,8 @@ export default function AccountDashboard({user,campus,requests=[],listings=[],bu
    </section>
    <section className="cl-actions" aria-label="Quick actions">
     <h2>Quick Actions</h2>
-    <div className="cl-action-grid">{actions.map(([label,Icon,action])=><button key={label} onClick={action} className="cl-action"><Icon size={27}/><span>{label}</span></button>)}</div>
-    {showMoreActions&&<div className="cl-more-actions"><button onClick={onRequests}><ListChecks size={18}/> View Requests</button><button onClick={onAppointments}><CalendarCheck size={18}/> Appointments</button><button onClick={onSaved}><Bookmark size={18}/> Saved Listings</button><button onClick={onHelp}><HelpCircle size={18}/> Help and Support</button></div>}
+    <div className="cl-action-grid">{actions.map(([label,Icon,action])=><button key={label} onClick={action} className="cl-action"><span className={label==='Create Listing'?'cl-create-icon':'cl-action-icon'}><Icon size={25}/></span><span>{label}</span></button>)}</div>
+    {showMoreActions&&<div className="cl-more-actions"><button onClick={onRequests}><ListChecks size={18}/> View Requests</button><button onClick={onAppointments}><CalendarCheck size={18}/> Appointments</button><button onClick={onManage}><Store size={18}/> Manage Listings</button><button onClick={onBrowse}><Search size={18}/> Explore Services</button></div>}
    </section>
    <section className="cl-lumi cl-lumi-mobile" aria-label="Lumi assistant">
     <div className="cl-lumi-top"><span className="cl-lumi-symbol"><img src="/images/lumi-assistant.svg" alt="Lumi robot assistant"/></span><div><h2>Meet Lumi <Sparkles size={15}/></h2><p>Your Campus Loop assistant is here to help you get started.</p></div></div>

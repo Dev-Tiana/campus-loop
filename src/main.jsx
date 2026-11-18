@@ -235,12 +235,12 @@ function App(){
  if(!user||route.kind!=='protected')return <div className="public-entry"><div className="public-install"><PwaPanel user={user}/></div>{error&&<p className="error public-error" role="alert">{error}</p>}{route.kind==='signin'||route.kind==='signup'?<main className="auth-screen"><a className="auth-back" href="/" onClick={e=>{e.preventDefault();setError('');navigate(welcomePath(route.next));}}>← Back to welcome</a><div className="auth-card"><AccountForm key={route.kind+(route.requiredRole || '')} signup={route.kind==='signup'} accountRole={route.requiredRole} requiredRole={route.requiredRole} campuses={data.campuses} busy={busy} onSend={send} onError={setError} onSuccess={finishAuth} onModeChange={(signup,role)=>{setError('');navigate(signup&&!role?'/':authPath({signup,role,next:route.next}));}}/></div></main>:<Welcome content={data.welcome} next={route.next} onNavigate={navigate}/>}</div>;
  return <>
  {guideOpen&&<GuideMenu activeId={page==='Guide'?guideId:null} items={guide.menuItems} onClose={()=>setGuideOpen(false)} onChoose={id=>{setGuideOpen(false);navigate(guideHref(id));}}/>}
- <header><div className="header-inner"><button className="icon-btn guide-menu-toggle" aria-label="Open Campus Guide" aria-controls="campus-guide-menu" aria-expanded={guideOpen} onClick={()=>setGuideOpen(!guideOpen)}><Menu size={22}/></button>
-   <button className="brand" aria-label="Campus Loop home" onClick={()=>go('Explore')}><Logo/></button>
+ <header className={page==='Dashboard'?'cl-app-header':undefined}><div className="header-inner"><button className="icon-btn guide-menu-toggle" aria-label="Open Campus Guide" aria-controls="campus-guide-menu" aria-expanded={guideOpen} onClick={()=>setGuideOpen(!guideOpen)}><Menu size={22}/></button>
+   <button className="brand" aria-label="Campus Loop home" onClick={()=>go('Explore')}><Logo/>{page==='Dashboard'&&<span className="cl-header-tagline">Campus Services Made Easy</span>}</button>
    <button className="campus" aria-label={'Campus: '+campusName} onClick={()=>open('campus')}><MapPin size={14}/><span className="campus-full">{campusName}</span><span className="campus-short">DELSU</span><ChevronDown size={12}/></button>
    <nav aria-label="Main navigation">{['Explore','Housing','Requests','Appointments'].map(p=><button key={p} className={page===p?'current':''} onClick={()=>go(p)}>{p}{p==='Requests' && incoming>0 && <b>{incoming}</b>}</button>)}</nav>
    <div className="header-actions"><button className="icon-btn" title="Notifications" aria-label={'Notifications'+(unread?' · '+unread+' unread':'')} onClick={()=>go('Notifications')}><Bell size={19}/>{unread>0&&<b className="notification-count">{unread}</b>}</button>
-   <button className="dark account" aria-label={user?'Account menu · '+(user.accountRole || 'Role setup'):'Sign in'} onClick={()=>user?open('account-menu'):open('account')}>{user?user.name.split(' ')[0]:'Sign in'}</button></div>
+   <button className="dark account" aria-label={user?'Account menu · '+(user.accountRole || 'Role setup'):'Sign in'} onClick={()=>user?open('account-menu'):open('account')}>{user?<Avatar name={user.name} src={user.avatarUrl}/>: 'Sign in'}</button></div>
  </div></header>
  <div className={page==='Dashboard'?'marketplace-layout cl-dashboard-shell':'marketplace-layout'}>
  {page==='Dashboard'&&user&&<aside className="cl-shell-sidebar" aria-label="Dashboard navigation">
@@ -310,7 +310,7 @@ function App(){
  {user?.accountRole==='provider'&&<ProviderSetupAssistant user={user} businesses={ownBusinesses} listings={ownServices} onCreateBusiness={()=>gated('business-edit')} onAddService={addBusinessService} onManage={()=>go('My listings')}/>}
  {media&&<MediaViewer {...media} onClose={()=>setMedia(null)}/>}
  {gallery&&<Gallery listing={gallery} videoFirst={gallery.videoFirst} onClose={()=>setGallery(null)}/>}
- <footer><Logo/><span>DELSU Abraka</span><button onClick={()=>{setPhoto('');gated('business-edit',{setup:true});}}>Offer a service <ArrowUpRight size={15}/></button></footer>
+ <footer className={page==='Dashboard'?'cl-dashboard-footer':undefined}><Logo/><span>DELSU Abraka</span><button onClick={()=>{setPhoto('');gated('business-edit',{setup:true});}}>Offer a service <ArrowUpRight size={15}/></button></footer>
 
  {toast&&<div className="toast" role="status"><Check size={18}/>{toast}</div>}
  {modal && <div className="overlay" style={{display:authPrompt?'none':undefined}} onClick={e=>{if(e.target===e.currentTarget)close();}}><div key={modal.firstService||modal.type==='service-published'?modal.type:undefined} className="dialog" role="dialog" aria-modal="true" aria-label="Campus Loop form">

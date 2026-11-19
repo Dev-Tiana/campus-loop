@@ -24,6 +24,7 @@ import {defaultCategories} from '../shared/category-defaults.js';
 import Welcome from './Welcome.jsx';
 import MarketplaceHero from './MarketplaceHero.jsx';
 import ExploreRedesign from './ExploreRedesign.jsx';
+import AppSidebar,{SHELL_PAGES} from './AppSidebar.jsx';
 import {appPath,authPath,welcomePath,parseAppRoute,resolveSessionRoute} from '../shared/app-routes.js';
 import {flushSync} from 'react-dom';
 import AccountForm from './AccountForm.jsx';
@@ -243,22 +244,9 @@ function App(){
    <div className="header-actions"><button className="icon-btn cl-header-notifications" title="Notifications" aria-label={'Notifications'+(unread?' · '+unread+' unread':'')} onClick={()=>go('Notifications')}><Bell size={19}/>{unread>0&&<b className="notification-count">{unread}</b>}</button>
    <button className="dark account" aria-label={user?'Edit profile photo':'Sign in'} onClick={()=>user?open('edit-profile'):open('account')}>{user?<Avatar name={user.name} src={user.avatarUrl}/>: 'Sign in'}</button></div>
  </div></header>
- <div className={page==='Dashboard'?'marketplace-layout cl-dashboard-shell':user&&['Explore','Requests','My listings','Appointments','Notifications','Saved'].includes(page)?'marketplace-layout cl-unified-shell':'marketplace-layout'}>
- {page==='Dashboard'&&user&&<aside className="cl-shell-sidebar" aria-label="Dashboard navigation">
-  <div className="cl-shell-sidebar-title">CAMPUS LOOP</div>
-  <button className="cl-shell-active" onClick={()=>go('Dashboard')}><House size={19}/> Dashboard</button>
-  <button onClick={()=>go('Explore')}><Search size={19}/> Explore Services</button>
-  <div className="cl-shell-group">MY BUSINESS</div>
-  <button onClick={()=>go('My listings')}><Store size={19}/> My Listings</button>
-  <button onClick={()=>gated('business-edit',{setup:true})}><Plus size={19}/> Create Listing</button>
-  <button onClick={()=>go('Requests')}><BookOpen size={19}/> Requests &amp; Orders</button>
-  <button onClick={()=>go('Notifications')}><Bell size={19}/> Notifications</button>
-  <div className="cl-shell-group">ACCOUNT</div>
-  <button onClick={()=>open('edit-profile')}><Avatar name={user.name} src={user.avatarUrl}/> My Profile</button>
-  <button onClick={()=>open('help-center')}><MessageCircle size={19}/> Help &amp; Support</button>
- </aside>}
- {page!=='Dashboard'&&<GuideSidebar items={guide.menuItems} activeId={page==='Guide'?guideId:null} onChoose={id=>navigate(guideHref(id))}/>}
- <main className={page==='Dashboard'?'marketplace-content cl-dashboard-content':page==='Explore'?'marketplace-content cl-unified-content cl-explore-content':'marketplace-content'}>
+ <div className={user&&SHELL_PAGES.includes(page)?'marketplace-layout cl-dashboard-shell cl-unified-shell cl-design-system':'marketplace-layout'}>
+ {user&&SHELL_PAGES.includes(page)?<AppSidebar page={page} user={user} onGo={go} onCreate={()=>gated('business-edit',{setup:true})} onProfile={()=>open('edit-profile')} onHelp={()=>open('help-center')}/>:<GuideSidebar items={guide.menuItems} activeId={page==='Guide'?guideId:null} onChoose={id=>navigate(guideHref(id))}/>}
+ <main className={page==='Dashboard'?'marketplace-content cl-dashboard-content':user&&SHELL_PAGES.includes(page)?'marketplace-content cl-unified-content'+(page==='Explore'?' cl-explore-content':''):'marketplace-content'}>
  {page!=='Dashboard'&&page!=='Explore'&&<PwaPanel user={user}/>}
  {page==='Notifications'&&<PhoneAlerts settings={true}/>}
  {page!=='Dashboard'&&page!=='Explore'&&<Announcements items={data.announcements}/>}

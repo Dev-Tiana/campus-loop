@@ -1,0 +1,25 @@
+import React,{useState} from 'react';
+import {Search,SlidersHorizontal,Heart,ArrowRight,MapPin,Store,ChevronDown} from 'lucide-react';
+import {coverPhotoUrl} from './cover-photo.js';
+import CompactCategories from './CompactCategories.jsx';
+import MarketplaceHero from './MarketplaceHero.jsx';
+import './explore-redesign.css';
+export default function ExploreRedesign({listings=[],categories=[],records=[],category='',onCategory,query='',onQuery,onOpen,onRequest,onHousing,onFood,onDelivery,formatPrice}){
+ const [filtersOpen,setFiltersOpen]=useState(false);
+ const [sort,setSort]=useState('recent');
+ const [saved,setSaved]=useState([]);
+ const matches=listings.filter(l=>{const q=query.trim().toLowerCase();return (!category||l.category===category)&&(!q||[l.title,l.category,l.categoryName,l.area,l.role].some(x=>String(x||'').toLowerCase().includes(q)));});
+ const ordered=[...matches].sort((a,b)=>sort==='price'?Number(a.price||0)-Number(b.price||0):sort==='name'?String(a.title).localeCompare(String(b.title)):0);
+ const real=ordered.filter(l=>!l.demo);
+ const featured=real.filter(l=>coverPhotoUrl(l)).slice(0,6);
+ const toggle=id=>setSaved(old=>old.includes(id)?old.filter(x=>x!==id):[...old,id]);
+ return <div className="cl-explore-v2">
+ <MarketplaceHero/>
+ <div className="cl-explore-search-row"><label className="cl-explore-search-field"><Search size={21}/><input aria-label="Search campus services" placeholder="Search for services, businesses, or items..." value={query} onChange={e=>onQuery(e.target.value)}/></label><button className="cl-explore-filter-btn" aria-label="Filter services" aria-expanded={filtersOpen} onClick={()=>setFiltersOpen(v=>!v)}><SlidersHorizontal size={23}/></button></div>
+ {filtersOpen&&<div className="cl-explore-filter-panel"><label>Sort services <select value={sort} onChange={e=>setSort(e.target.value)}><option value="recent">Recommended order</option><option value="name">Business name</option><option value="price">Price: low to high</option></select></label><button onClick={()=>{onQuery('');onCategory('');setSort('recent')}}>Clear filters</button></div>}
+ <CompactCategories records={records} categories={categories} category={category} onChoose={onCategory}/>
+ {featured.length>0&&<section className="cl-featured"><div className="cl-section-heading"><h2>Featured on Campus</h2><button onClick={()=>document.getElementById('cl-all-services')?.scrollIntoView({behavior:'smooth'})}>See All <ArrowRight size={17}/></button></div><div className="cl-featured-track">{featured.map(l=><article className="cl-featured-card" key={l.id}><button className="cl-featured-main" onClick={()=>onOpen(l)}><img src={coverPhotoUrl(l)} alt=""/><div><h3>{l.title}</h3><p>{l.categoryName||l.category}</p>{l.area&&<small><MapPin size={13}/>{l.area}</small>}</div></button><button className="cl-featured-save" aria-label={saved.includes(l.id)?'Remove from temporary shortlist':'Add to temporary shortlist'} aria-pressed={saved.includes(l.id)} onClick={()=>toggle(l.id)}><Heart size={20} fill={saved.includes(l.id)?'currentColor':'none'}/></button></article>)}</div></section>}
+ <section id="cl-all-services" className="cl-all-services"><div className="cl-section-heading"><h2>{category||'All Campus Services'}</h2><label className="cl-sort">Sort <ChevronDown size={14}/><select aria-label="Sort listings" value={sort} onChange={e=>setSort(e.target.value)}><option value="recent">Default</option><option value="name">Name</option><option value="price">Price</option></select></label></div><div className="cl-service-list">{ordered.length?ordered.map(l=><article className="cl-service-row" key={l.id}><button className="cl-service-image" onClick={()=>onOpen(l)}>{coverPhotoUrl(l)?<img src={coverPhotoUrl(l)} alt=""/>:<Store size={32}/>}</button><div className="cl-service-body"><div className="cl-service-title-row"><h3>{l.title}</h3><button className="cl-service-heart" aria-label={saved.includes(l.id)?'Remove from temporary shortlist':'Add to temporary shortlist'} aria-pressed={saved.includes(l.id)} onClick={()=>toggle(l.id)}><Heart size={19} fill={saved.includes(l.id)?'currentColor':'none'}/></button></div><p>{l.categoryName||l.category}{l.area?' · '+l.area:''}</p>{l.demo&&<small className="cl-demo-label">Sample listing</small>}{l.pricingMode!=='quote'&&Number.isFinite(Number(l.price))&&<small className="cl-service-price">From {formatPrice(l.price)}</small>}<button className="cl-view-business" onClick={()=>onOpen(l)}>View Service <ArrowRight size={16}/></button></div></article>):<div className="cl-explore-empty"><Search size={26}/><h3>No services found</h3><p>Try another search or request a service.</p><button onClick={onRequest}>Request a service</button></div>}</div></section>
+ <div className="cl-explore-secondary"><button onClick={onHousing}>Explore housing</button><button onClick={onRequest}>Request a service</button>{category==='Food & Cooking'&&<button onClick={onFood}>Order food</button>}{category==='Delivery'&&<button onClick={onDelivery}>Request delivery</button>}</div>
+ </div>;
+}

@@ -258,10 +258,10 @@ function App(){
   <button onClick={()=>open('help-center')}><MessageCircle size={19}/> Help &amp; Support</button>
  </aside>}
  {page!=='Dashboard'&&<GuideSidebar items={guide.menuItems} activeId={page==='Guide'?guideId:null} onChoose={id=>navigate(guideHref(id))}/>}
- <main className={page==='Dashboard'?'marketplace-content cl-dashboard-content':'marketplace-content'}>
- {page!=='Dashboard'&&<PwaPanel user={user}/>}
+ <main className={page==='Dashboard'?'marketplace-content cl-dashboard-content':page==='Explore'?'marketplace-content cl-unified-content cl-explore-content':'marketplace-content'}>
+ {page!=='Dashboard'&&page!=='Explore'&&<PwaPanel user={user}/>}
  {page==='Notifications'&&<PhoneAlerts settings={true}/>}
- {page!=='Dashboard'&&<Announcements items={data.announcements}/>}
+ {page!=='Dashboard'&&page!=='Explore'&&<Announcements items={data.announcements}/>}
  {error&&!modal&&<p className="error" role="alert">{error}</p>}
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
  {page==='Explore'&&<ExploreRedesign listings={visible} categories={categories} records={records} category={category} onCategory={choose} query={query} onQuery={setQuery} onOpen={profile} onRequest={()=>request()} onHousing={()=>go('Housing')} onFood={()=>{setFoodPath('menu');setQuery('')}} onDelivery={()=>gated('delivery-request')} formatPrice={naira}/>}

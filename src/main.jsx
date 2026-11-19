@@ -264,7 +264,7 @@ function App(){
  {page!=='Dashboard'&&page!=='Explore'&&<Announcements items={data.announcements}/>}
  {error&&!modal&&<p className="error" role="alert">{error}</p>}
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
- {page==='Explore'&&<ExploreRedesign listings={visible} categories={categories} records={records} category={category} onCategory={choose} query={query} onQuery={setQuery} onOpen={profile} onRequest={()=>request()} onHousing={()=>go('Housing')} onFood={()=>{setFoodPath('menu');setQuery('')}} onDelivery={()=>gated('delivery-request')} formatPrice={naira}/>}
+ {page==='Explore'&&<ExploreRedesign listings={visible} categories={categories} records={records} category={category} onCategory={choose} query={query} onQuery={setQuery} onOpen={profile} onRequest={()=>request()} onHousing={()=>go('Housing')} onFood={()=>{setFoodPath('menu');setQuery('')}} onDelivery={()=>gated('delivery-request')} formatPrice={naira} savedIds={data.savedListingIds||[]} onSave={(id,saved)=>send('listings/'+id+'/saved',{saved})}/>}
  {page==='Guide'&&<ContentPlacements ads={data.ads} placement="guide"/>}
  {page==='Guide'&&<CampusGuide guide={guide} id={guideId} listings={listings} onListing={profile}/>}
  {page==='Housing' && <>

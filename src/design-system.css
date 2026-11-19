@@ -1,0 +1,36 @@
+/* Shared Campus Loop redesign tokens: isolated namespace until page-family migration. */
+.cl-design-system {
+ --cl-purple-900:#481078;
+ --cl-purple-700:#6816b5;
+ --cl-purple-600:#7620c2;
+ --cl-purple-100:#f2e8fa;
+ --cl-canvas:#faf9fd;
+ --cl-surface:#ffffff;
+ --cl-ink:#1d1728;
+ --cl-muted:#625b6d;
+ --cl-border:#e7dfed;
+ --cl-radius-sm:10px;
+ --cl-radius-md:14px;
+ --cl-radius-lg:18px;
+ --cl-space-1:4px;
+ --cl-space-2:8px;
+ --cl-space-3:12px;
+ --cl-space-4:16px;
+ --cl-space-5:20px;
+ --cl-space-6:24px;
+ --cl-tap:44px;
+ color:var(--cl-ink);
+}
+.cl-design-system .cl-ui-card{background:var(--cl-surface);border:1px solid var(--cl-border);border-radius:var(--cl-radius-md);padding:var(--cl-space-3)}
+.cl-design-system .cl-ui-page-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--cl-space-3);margin:0 0 var(--cl-space-4)}
+.cl-design-system .cl-ui-page-heading h1{font-size:clamp(1.4rem,4vw,2rem);line-height:1.2;letter-spacing:-.025em;margin:0}
+.cl-design-system .cl-ui-page-heading p{margin:5px 0 0;color:var(--cl-muted);font-size:.9rem}
+.cl-design-system .cl-ui-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:var(--cl-tap);border:1px solid transparent;border-radius:var(--cl-radius-sm);padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}
+.cl-design-system .cl-ui-button-primary{background:var(--cl-purple-700);color:#fff}
+.cl-design-system .cl-ui-button-secondary{background:var(--cl-surface);color:var(--cl-purple-700);border-color:var(--cl-border)}
+.cl-design-system .cl-ui-button:focus-visible,.cl-design-system button:focus-visible{outline:3px solid #b58de3;outline-offset:2px}
+.cl-design-system .cl-ui-empty{text-align:center;padding:28px 16px;color:var(--cl-muted)}
+.cl-design-system .cl-ui-empty h2{color:var(--cl-ink);font-size:1.1rem;margin:0 0 8px}
+.cl-design-system .cl-ui-empty p{margin:0 0 16px}
+.cl-design-system .cl-ui-status{display:inline-flex;align-items:center;border-radius:999px;background:var(--cl-purple-100);color:var(--cl-purple-900);padding:4px 9px;font-size:.75rem;font-weight:700}
+@media(max-width:700px){.cl-design-system .cl-ui-card{padding:12px}.cl-design-system .cl-ui-page-heading{gap:10px}}

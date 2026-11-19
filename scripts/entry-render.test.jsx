@@ -10,10 +10,29 @@ test('each signup form has the selected fixed role; returning users see sign-in 
  const campuses=[{id:'delsu-abraka',name:'DELSU Abraka'}];for(const role of ['customer','provider']){const html=renderToStaticMarkup(<AccountForm signup accountRole={role} requiredRole={role} campuses={campuses}/>);assert.ok(html.includes('Create a '+role+' account'));assert.ok(html.includes('name="name"'));assert.ok(html.includes('name="email"'));assert.ok(html.includes('name="password"'));assert.ok(!html.includes('Account type'));}
  const html=renderToStaticMarkup(<AccountForm campuses={campuses}/>);assert.ok(html.includes('Welcome back'));assert.ok(html.includes('>Sign in</button>'));assert.ok(!html.includes('Account type'));assert.ok(!html.includes('name="name"'));
 });
-test('signed-in marketplace keeps the two-line hero, both service actions and icon category cards',()=>{
- const html=renderToStaticMarkup(<><MarketplaceHero/><CompactCategories categories={categories} category=""/></>);assert.ok(html.includes('<span class="hero-line">Campus life,</span><em>sorted.</em>'));assert.ok(html.includes('Request a service'));assert.ok(html.includes('Offer a service'));assert.ok(html.includes('Browse categories'));for(const category of categories)assert.ok(html.includes('aria-label="'+category.replaceAll('&','&amp;')+'"'));assert.ok(!html.includes('/categories/'));assert.ok(!html.includes('Find a barber, nail tech, or lash tech near DELSU Abraka.'));
+test('signed-in marketplace renders the approved compact categories and More control',()=>{
+ const html=renderToStaticMarkup(<><MarketplaceHero/><CompactCategories categories={categories} category="" onChoose={()=>{}} onMore={()=>{}}/></>);
+ assert.ok(html.includes('Campus life,'));
+ assert.ok(html.includes('Request a service'));
+ assert.ok(html.includes('Offer a service'));
+ assert.ok(html.includes('aria-label="Service categories"'));
+ assert.ok(html.includes('aria-label="View all service categories"'));
+ assert.ok(html.includes('>More</strong>'));
+ assert.ok(!html.includes('/categories/'));
 });
-
+test('shared sidebar renders all primary navigation options without truncating labels',async()=>{
+ const {default:AppSidebar}=await import('../src/AppSidebar.jsx');
+ const html=renderToStaticMarkup(<AppSidebar page="Explore" user={{id:'test',name:'Student'}} onGo={()=>{}} onCreate={()=>{}} onProfile={()=>{}} onHelp={()=>{}}/>);
+ for(const label of ['Dashboard','Explore Services','My Listings','Requests &amp; Orders','Appointments','Saved Listings','Notifications','Create Listing','Help &amp; Support'])assert.ok(html.includes(label),label);
+ assert.ok(html.includes('aria-current="page"'));
+});
+test('Explore renders without listings and includes a dedicated category directory control',async()=>{
+ const {default:ExploreRedesign}=await import('../src/ExploreRedesign.jsx');
+ const html=renderToStaticMarkup(<ExploreRedesign listings={[]} categories={['Laundry','Cleaning']} records={[]} onCategory={()=>{}} onQuery={()=>{}} onOpen={()=>{}} onRequest={()=>{}} formatPrice={n=>String(n)}/>);
+ assert.ok(html.includes('No services found'));
+ assert.ok(html.includes('View all service categories'));
+ assert.ok(html.includes('All Campus Services'));
+});
 test('welcome has one campus image, and switcher shows active and separate linked roles',()=>{
  const html=renderToStaticMarkup(<Welcome/>);assert.equal((html.match(/class="welcome-photo"/g)||[]).length,1);assert.equal((html.match(/<img/g)||[]).length,4);assert.match(html,/src="\/walkthroughs\/customer\.webp"/);assert.match(html,/src="\/walkthroughs\/provider\.webp"/);assert.ok(html.includes('/images/welcome-nigerian-campus.webp'));assert.doesNotMatch(html,/Photo credit|<figcaption/);assert.ok(!html.includes('welcome-emblem'));
  const user={id:'customer',name:'Customer',accountRole:'customer'},accounts=[{...user,email:'customer@example.com'},{id:'provider',name:'Provider',accountRole:'provider',email:'provider@example.com'}];const switcher=renderToStaticMarkup(<AccountSwitcher user={user} accounts={accounts}/>);for(const text of ['Switch account','Active account','customer account','provider account','Switch to provider'])assert.ok(switcher.includes(text),text);

@@ -1,5 +1,6 @@
 name: Campus Loop redesign checks
 on:
+  workflow_dispatch:
   push:
     branches:
       - feature/campus-loop-full-redesign-20261118

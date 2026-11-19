@@ -23,6 +23,7 @@ import {CookingRequest,FoodOrderForm,DeliveryRequest,FoodOrderSummary,DeliverySu
 import {defaultCategories} from '../shared/category-defaults.js';
 import Welcome from './Welcome.jsx';
 import MarketplaceHero from './MarketplaceHero.jsx';
+import ExploreRedesign from './ExploreRedesign.jsx';
 import {appPath,authPath,welcomePath,parseAppRoute,resolveSessionRoute} from '../shared/app-routes.js';
 import {flushSync} from 'react-dom';
 import AccountForm from './AccountForm.jsx';
@@ -263,18 +264,7 @@ function App(){
  {page!=='Dashboard'&&<Announcements items={data.announcements}/>}
  {error&&!modal&&<p className="error" role="alert">{error}</p>}
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
- {page==='Explore' && <>
-   <MarketplaceHero onRequest={()=>request()} onOffer={()=>gated('business-edit',{setup:true})}/>
-   <div className="explore-discovery"><label className="explore-search"><Search size={21}/><input aria-label="Search campus services" value={query} onChange={e=>setQuery(e.target.value)} placeholder="What service are you looking for?"/></label><button className="explore-search-action" onClick={()=>document.getElementById('results')?.scrollIntoView({behavior:'smooth',block:'start'})}>Search <ArrowRight size={18}/></button></div>
-   <CompactCategories records={records} categories={categories} category={category} onChoose={choose}/>
-   <ContentPlacements ads={data.ads} placement="main"/><div className="living-entry"><button className="secondary" onClick={()=>go('Housing')}>Browse housing</button><button className="secondary" onClick={()=>{go('Housing');requestAnimationFrame(()=>document.getElementById('roommates')?.scrollIntoView({block:'start'}));}}>Find a roommate</button></div>
-   {category==='Food & Cooking'&&<section className="commerce-entry"><h2>Food &amp; Cooking</h2><div className="row-actions"><button className="dark" onClick={()=>gated('request',{category:'Food & Cooking'})}>Request a cook</button><button className="secondary" onClick={()=>{setFoodPath('menu');setQuery('');document.getElementById('results')?.scrollIntoView();}}>Order food</button></div></section>}
-   {category==='Delivery'&&<section className="commerce-entry"><h2>Delivery around Abraka</h2><p>Collect food or purchases from anywhere. Delivery fees are quoted separately.</p><button className="dark" onClick={()=>gated('delivery-request')}>Request delivery</button></section>}
-   <ExploreHelp onOpen={tab=>open('help-center',{tab})}/>
-   <section id="results"><div className="section-head results-head"><div><h2>{records.find(c=>c.value===category)?.name || category || 'All Campus Services'}</h2><p>Explore providers around DELSU Abraka.</p></div><label className="search"><Search size={18}/><input aria-label="Search providers" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search a name or service"/></label></div>
-   {cards(visible)}</section>
-   <section className="provider-banner"><div><h2>Offer your skills on campus.</h2><p>Create a business page, add your services, and reply to requests.</p></div><button className="dark" onClick={()=>{setPhoto('');gated('business-edit',{setup:true});}}>Offer a service <ArrowUpRight size={17}/></button></section>
- </>}
+ {page==='Explore'&&<ExploreRedesign listings={visible} categories={categories} records={records} category={category} onCategory={choose} query={query} onQuery={setQuery} onOpen={profile} onRequest={()=>request()} onHousing={()=>go('Housing')} onFood={()=>{setFoodPath('menu');setQuery('')}} onDelivery={()=>gated('delivery-request')} formatPrice={naira}/>}
  {page==='Guide'&&<ContentPlacements ads={data.ads} placement="guide"/>}
  {page==='Guide'&&<CampusGuide guide={guide} id={guideId} listings={listings} onListing={profile}/>}
  {page==='Housing' && <>

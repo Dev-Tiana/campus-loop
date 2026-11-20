@@ -6,7 +6,7 @@ import {activityTime, requestStatus} from './RequestTracking.jsx';
 import './account-dashboard.css';
 
 export default function AccountDashboard({
- user,campus,requests,listings,unfinishedBusiness,savedCount,onRequest,onCreate,onManage,onRequests,onBrowse,onSaved,onSetup,onOpen,onEditProfile,onAppointments,onHelp
+ assistant,user,campus,requests,listings,unfinishedBusiness,savedCount,onRequest,onCreate,onManage,onRequests,onBrowse,onSaved,onSetup,onOpen,onEditProfile,onAppointments,onHelp
 }){
  const provider=user.accountRole==='provider';
  const ready=!!user.accountRole;
@@ -30,19 +30,20 @@ export default function AccountDashboard({
  return <section className="account-dashboard">
   <div className="account-dashboard-hero">
    <div className="account-dashboard-context"><MapPin size={14}/>{campus}<span>·</span>{provider?'Provider account':ready?'Customer account':'Account setup'}</div>
-   <div className="account-avatar-row account-dashboard-greeting"><Avatar name={user.name} src={user.avatarUrl}/><h1>{ready?(firstName?'Hi, '+firstName+'.':'Welcome back.'):'Choose your role'}</h1></div>
+   <div className="account-avatar-row account-dashboard-greeting"><Avatar name={user.name} src={user.avatarUrl}/><h1>{ready?(firstName?'Welcome back, '+firstName:'Your dashboard'):'Choose your role'}</h1></div>
    <p>{provider?(unfinishedBusiness?'Your business page is ready. Add your first service so students can request it.':needsFirstService?'Set up your business and publish a service so students can find you.':'Manage your services and see which requests need a reply.'):ready?'Request a service or pick up where you left off.':'Choose how you want to use Campus Loop.'}</p>
    <button className="account-dashboard-primary" onClick={!ready?onSetup:provider?onCreate:onRequest}>
     <Plus size={19}/>{!ready?'Set up account roles':provider?(needsFirstService?'Add your first service':'Add a service'):'Request a service'}<ArrowRight size={17}/>
    </button>
   </div>
   {ready&&<>
-   <AccountWalkthrough key={user.id+':'+user.accountRole} role={provider?'provider':'customer'} accountId={user.id}/>
+
    <div className="account-dashboard-stats" aria-label="Account overview">
     {stats.map(({label,value,Icon,onClick})=><button key={label} className="account-dashboard-stat" onClick={onClick}>
      <Icon size={17}/><strong>{value}</strong><span>{label}</span>
     </button>)}
    </div>
+   {assistant}
    <div className="account-dashboard-grid">
     <section className="account-dashboard-activity" aria-labelledby="dashboard-recent">
      <div className="account-dashboard-section-head"><h2 id="dashboard-recent">{provider?'Recent incoming requests':'Recent activity'}</h2>{recent.length>0&&<button className="account-dashboard-link" onClick={onRequests}>View all <ArrowRight size={14}/></button>}</div>
@@ -60,6 +61,7 @@ export default function AccountDashboard({
      <Shortcut Icon={Bookmark} onClick={onSaved}>Saved listings{savedCount>0?' · '+savedCount:''}</Shortcut>
     </div>
    </div>
+   <AccountWalkthrough key={user.id+':'+user.accountRole} role={provider?'provider':'customer'} accountId={user.id}/>
   </>}
  </section>;
 }

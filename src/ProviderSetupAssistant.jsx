@@ -3,7 +3,7 @@ import React,{useEffect,useState} from 'react';
 import {Sparkles,X} from 'lucide-react';
 
 const parts=s=>String(s||'').split(/[,;\n]+|\s+and\s+/i).map(x=>x.trim()).filter(Boolean);
-export default function ProviderSetupAssistant({user,businesses=[],listings=[],onCreateBusiness,onAddService,onManage}){
+export default function ProviderSetupAssistant({inline=false,user,businesses=[],listings=[],onCreateBusiness,onAddService,onManage}){
  const [open,setOpen]=useState(false),[step,setStep]=useState(0),[businessId,setBusinessId]=useState('');
  const [question,setQuestion]=useState('');
  const [reply,setReply]=useState('');
@@ -21,7 +21,9 @@ export default function ProviderSetupAssistant({user,businesses=[],listings=[],o
  const combined=listings.map(l=>({listing:l,review:reviewServiceListing(l)})).filter(x=>x.review.needsReview);
  function close(){setOpen(false);try{localStorage.setItem('campus-loop-assistant-seen-'+user.id,'1');}catch{}}
  function next(){if(step===0){setStep(1);return;}if(step===1){if(!selected){close();onCreateBusiness();}else setStep(2);return;}if(step===2){close();onAddService(selected,!linked.length);return;}close();onManage();}
- return <><button type="button" className="lumi-launcher" aria-label="Open Lumi business setup assistant" onClick={()=>{setStep(0);setOpen(true);}}><Sparkles size={19} aria-hidden="true"/><span>Lumi</span></button>
+ const showAssistant=()=>{setStep(0);setOpen(true);};
+ return <>{inline?<section className="dashboard-lumi"><Sparkles size={28}/><div><h2>Lumi</h2><p>Get help with your business page, prices and service listings.</p></div><button onClick={showAssistant}>Chat with Lumi</button></section>:<button type="button" className="lumi-launcher" aria-label="Open Lumi business setup assistant" onClick={showAssistant}><Sparkles size={19} aria-hidden="true"/><span>Lumi</span></button>}
+
  {open&&<div role="presentation" onClick={close} style={{position:'fixed',inset:0,zIndex:1100,background:'rgba(0,0,0,.55)',display:'flex',alignItems:'center',justifyContent:'center',padding:16}}>
  <section role="dialog" aria-modal="true" aria-label="Lumi business setup assistant" onClick={e=>e.stopPropagation()} style={{background:'#fff',color:'#25251e',borderRadius:20,width:'100%',maxWidth:470,maxHeight:'85vh',overflowY:'auto',padding:24,boxShadow:'0 18px 65px #0004'}}>
  <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}><strong style={{display:'flex',alignItems:'center',gap:8}}><Sparkles size={20}/> Lumi · Your setup helper</strong><button type="button" className="secondary" aria-label="Close assistant" onClick={close}><X size={18}/></button></div>

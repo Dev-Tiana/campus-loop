@@ -23,3 +23,30 @@
 @media(min-width:1024px){.loop-sidebar{display:block;min-width:0}.loop-side-nav{display:grid;gap:3px;background:white;border:1px solid var(--loop-border);border-radius:16px;padding:10px;margin-bottom:14px}.loop-side-nav button{gap:10px;min-height:42px;border-radius:9px;padding:9px 12px}.loop-sidebar .guide-desktop-panel{position:static}}
 @media(max-width:1023px){body:has(.loop-bottom){padding-bottom:calc(72px + env(safe-area-inset-bottom))}.loop-bottom{position:fixed;inset:auto 0 0;z-index:30;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:5px 3px calc(5px + env(safe-area-inset-bottom));background:white;border-top:1px solid var(--loop-border)}.loop-bottom button{justify-content:center;flex-direction:column;gap:4px;min-height:50px;border-radius:10px;font-size:clamp(10px,2.7vw,12px)}body:has(.loop-bottom) .lumi-launcher{bottom:calc(72px + env(safe-area-inset-bottom))}}
 @media(max-width:620px){.loop-roles{grid-template-columns:1fr}.loop-campus-hero{min-height:330px;border-radius:17px}.loop-mast{padding-block:12px}.loop-hero-copy{padding:20px}.loop-roles{gap:10px;margin-top:12px}}
+
+body:has(.marketplace-layout){background:#f7f6fc;color:#231a37}
+.discovery-header{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);overflow:hidden;border-radius:19px;background:#381e84;color:white;margin:16px 0 22px}
+.discovery-header>div{padding:clamp(18px,3vw,36px)}.discovery-campus,.discovery-actions,.discovery-actions button{display:flex;align-items:center;gap:7px}
+.discovery-campus{color:#e5dafa;font-size:13px;font-weight:650}.discovery-header h1{font-size:clamp(30px,4vw,49px);line-height:1.1;margin:8px 0 16px;color:white}
+.discovery-header>img{width:100%;height:100%;min-height:0;object-fit:cover}
+.discovery-header form{display:flex;gap:8px;align-items:center;padding:5px 5px 5px 12px;border-radius:10px;background:white;color:#615870}
+.discovery-header input{border:0;background:none;min-width:0;flex:1;padding:7px 0;font-size:16px;color:#251939}
+.discovery-header form button,.dashboard-lumi button{border:0;border-radius:8px;background:#5020ae;color:white;padding:10px 13px;font-weight:700;min-height:42px}
+.discovery-actions{margin-top:10px;flex-wrap:wrap}.discovery-actions button{border:0;background:transparent;color:white;font-weight:650;min-height:40px;padding:0 8px 0 0}
+.directory-toggle{border:1px solid #d5c7eb;color:#461296;background:white;border-radius:9px;padding:8px 13px;min-height:44px}
+.marketplace-content:has(.discovery-header) .categories,.marketplace-content:has(.discovery-header) #results{margin:18px 0 22px}
+.marketplace-content:has(.discovery-header) .category-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(94px,1fr));gap:8px}
+.marketplace-content:has(.discovery-header) .category-grid button{background:white;border:1px solid #e3ddef;border-radius:12px;color:#35244f;min-width:0}
+.marketplace-content:has(.discovery-header) .category-grid button.active{border-color:#572cae;background:#f0eafa}
+.marketplace-content:has(.discovery-header) .listing{background:white;border:1px solid #e3ddef;border-radius:14px;overflow:hidden}
+.marketplace-content:has(.discovery-header) #results{scroll-margin-top:90px}
+.account-dashboard .account-dashboard-hero{background:white;color:#231a37;border:1px solid #e3ddef;border-left:5px solid #6330b6;border-radius:16px;padding:clamp(16px,3vw,30px)}
+.account-dashboard .account-dashboard-context,.account-dashboard .account-dashboard-link{color:#5225a4}
+.account-dashboard .account-dashboard-hero h1{color:#24133e;font-size:clamp(25px,3.5vw,42px)}
+.account-dashboard .account-dashboard-hero p{color:#5c526c}.account-dashboard .account-dashboard-primary{background:#5020ae;color:white;margin-top:12px}
+.account-dashboard .account-dashboard-stat,.account-dashboard .account-dashboard-activity,.account-dashboard .account-dashboard-shortcut{background:white;border-color:#e3ddef;color:#241b38}
+.account-dashboard .account-dashboard-stat svg{box-sizing:content-box;background:#eae1fb;color:#4c2697;padding:7px;border-radius:9px}
+.account-dashboard .account-dashboard-stat:nth-child(2) svg{background:#fff0c5;color:#6b4a02}.account-dashboard .account-dashboard-stat:nth-child(3) svg{background:#dcf3e9;color:#156443}
+.account-dashboard .account-dashboard-shortcut svg:first-child{color:#5225a4}.account-dashboard-state{background:#eee8fb;color:#492b76}
+.dashboard-lumi{display:flex;align-items:center;gap:16px;background:#eae2fa;color:#352054;border:1px solid #d9c9f4;border-radius:16px;padding:18px}.dashboard-lumi h2{margin:0;font-size:23px}.dashboard-lumi p{margin:3px 0 0}.dashboard-lumi button{margin-left:auto;flex-shrink:0}
+@media(max-width:650px){.discovery-header{grid-template-columns:minmax(0,1fr)}.discovery-header>img{display:none}.dashboard-lumi{display:grid;grid-template-columns:auto 1fr}.dashboard-lumi button{grid-column:2;justify-self:start;margin:0}}

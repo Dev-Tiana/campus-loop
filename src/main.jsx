@@ -24,7 +24,7 @@ import CampusGuide,{GuideMenu,GuideSidebar,guideHref} from './CampusGuide.jsx';
 import {CookingRequest,FoodOrderForm,DeliveryRequest,FoodOrderSummary,DeliverySummary} from './Commerce.jsx';
 import {defaultCategories} from '../shared/category-defaults.js';
 import Welcome from './Welcome.jsx';
-import MarketplaceHero from './MarketplaceHero.jsx';
+import DiscoveryHeader from './DiscoveryHeader.jsx';
 import {appPath,authPath,welcomePath,parseAppRoute,resolveSessionRoute} from '../shared/app-routes.js';
 import {flushSync} from 'react-dom';
 import AccountForm from './AccountForm.jsx';
@@ -254,14 +254,16 @@ function App(){
  {error&&!modal&&<p className="error" role="alert">{error}</p>}
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
  {page==='Explore' && <>
-   <MarketplaceHero onRequest={()=>request()} onOffer={()=>gated('business-edit',{setup:true})}/>
-   <ContentPlacements ads={data.ads} placement="main"/><CompactCategories records={records} categories={categories} category={category} onChoose={choose}/>
-   <div className="living-entry"><button className="secondary" onClick={()=>go('Housing')}>Browse housing</button><button className="secondary" onClick={()=>{go('Housing');requestAnimationFrame(()=>document.getElementById('roommates')?.scrollIntoView({block:'start'}));}}>Find a roommate</button></div>
+   <DiscoveryHeader campus={campusName} query={query} onQuery={setQuery} onRequest={()=>request()} onOffer={()=>gated('business-edit',{setup:true})}/>
+   <ContentPlacements ads={data.ads} placement="main"/><CompactCategories collapsible records={records} categories={categories} category={category} onChoose={choose}/>
+
    {category==='Food & Cooking'&&<section className="commerce-entry"><h2>Food &amp; Cooking</h2><div className="row-actions"><button className="dark" onClick={()=>gated('request',{category:'Food & Cooking'})}>Request a cook</button><button className="secondary" onClick={()=>{setFoodPath('menu');setQuery('');document.getElementById('results')?.scrollIntoView();}}>Order food</button></div></section>}
    {category==='Delivery'&&<section className="commerce-entry"><h2>Delivery around Abraka</h2><p>Collect food or purchases from anywhere. Delivery fees are quoted separately.</p><button className="dark" onClick={()=>gated('delivery-request')}>Request delivery</button></section>}
-   <ExploreHelp onOpen={tab=>open('help-center',{tab})}/>
-   <section id="results"><div className="section-head results-head"><div><h2>{records.find(c=>c.value===category)?.name || category || 'Services near you'}</h2><p>Explore providers around DELSU Abraka.</p></div><label className="search"><Search size={18}/><input aria-label="Search providers" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search a name or service"/></label></div>
+
+   <section id="results"><div className="section-head results-head"><div><h2>{records.find(c=>c.value===category)?.name || category || 'All campus services'}</h2></div></div>
    {cards(visible)}</section>
+   <div className="living-entry"><button className="secondary" onClick={()=>go('Housing')}>Browse housing</button><button className="secondary" onClick={()=>{go('Housing');requestAnimationFrame(()=>document.getElementById('roommates')?.scrollIntoView({block:'start'}));}}>Find a roommate</button></div>
+   <ExploreHelp onOpen={tab=>open('help-center',{tab})}/>
    <section className="provider-banner"><div><h2>Offer your skills on campus.</h2><p>Create a business page, add your services, and reply to requests.</p></div><button className="dark" onClick={()=>{setPhoto('');gated('business-edit',{setup:true});}}>Offer a service <ArrowUpRight size={17}/></button></section>
  </>}
  {page==='Guide'&&<ContentPlacements ads={data.ads} placement="guide"/>}
@@ -272,7 +274,7 @@ function App(){
  <section className="workspace"><div className="section-head"><div><h2>{ownHousing.length?'Your housing listings':'Have a room to list?'}</h2></div><button className="secondary" onClick={()=>{setPhoto('');gated('edit',{initialCategory:'Housing'});}}><Plus size={18}/> Add housing listing</button></div>{ownHousing.map(manageListing)}</section>
  <Roommates data={data} busy={busy} send={send} error={error} setError={setError} onSignIn={()=>open('account',{signup:true})}/>
  </>}
- {page==='Dashboard'&&user&&<AccountDashboard user={user} campus={campusName} requests={requests} listings={mine} unfinishedBusiness={unfinishedBusiness} savedCount={data.savedListingIds?.length || 0} onRequest={()=>request()} onCreate={()=>gated('business-edit',{setup:true})} onManage={()=>go('My listings')} onRequests={()=>{go('Requests');setRequestTab(user.accountRole==='provider'?'Incoming':'Mine');}} onBrowse={()=>go('Explore')} onSaved={()=>go('Saved')} onAppointments={()=>go('Appointments')} onHelp={()=>open('help-center')} onEditProfile={()=>open('edit-profile')} onSetup={()=>open('role-setup')} onOpen={viewRequest}/>}
+ {page==='Dashboard'&&user&&<AccountDashboard assistant={user.accountRole==='provider'?<ProviderSetupAssistant inline user={user} businesses={ownBusinesses} listings={ownServices} onCreateBusiness={()=>gated('business-edit')} onAddService={addBusinessService} onManage={()=>go('My listings')}/>:null} user={user} campus={campusName} requests={requests} listings={mine} unfinishedBusiness={unfinishedBusiness} savedCount={data.savedListingIds?.length || 0} onRequest={()=>request()} onCreate={()=>gated('business-edit',{setup:true})} onManage={()=>go('My listings')} onRequests={()=>{go('Requests');setRequestTab(user.accountRole==='provider'?'Incoming':'Mine');}} onBrowse={()=>go('Explore')} onSaved={()=>go('Saved')} onAppointments={()=>go('Appointments')} onHelp={()=>open('help-center')} onEditProfile={()=>open('edit-profile')} onSetup={()=>open('role-setup')} onOpen={viewRequest}/>}
  
  {page==='Notifications'&&user&&<><Notifications notifications={data.notifications || []} unreadCount={unread} busy={busy} onOpen={openNotification} onRead={n=>send('notifications/'+n.id+'/read',{})} onReadAll={()=>send('notifications/read-all',{})}/></>}
  {page==='Appointments'&&<Appointments key={user.id} requests={requests} user={user} onOpen={viewRequest} busy={busy} onSave={reminders=>send('appointment-reminders',{reminders},()=>setToast('Reminder settings saved'))}/>}
@@ -289,7 +291,7 @@ function App(){
  {page==='Saved'&&<section><div className="section-head"><div><h1>Saved listings</h1><p>Keep your favourites together.</p></div></div>{listings.some(l=>data.savedListingIds?.includes(l.id)&&l.available)?cards(listings.filter(l=>data.savedListingIds?.includes(l.id)&&l.available)):<p className="muted">Listings you save will appear here when available.</p>}</section>}
  {page==='Business'&&selectedBusiness&&<BusinessPage business={selectedBusiness} listings={listings} user={user} busy={busy} onProfile={profile} onEdit={()=>gated('business-edit',{business:selectedBusiness.id})} onAdd={()=>addBusinessService({...selectedBusiness,category:selectedBusiness.category || ownServices.find(l=>l.businessId===selectedBusiness.id)?.category},!ownServices.some(l=>l.businessId===selectedBusiness.id))} onLink={()=>gated('link-listing',{business:selectedBusiness.id})} onGallery={()=>setGallery({...selectedBusiness,title:selectedBusiness.name,entityType:'business'})} onCover={()=>setMedia({url:coverPhotoUrl(selectedBusiness),title:selectedBusiness.name+' cover photo'})}/>}
  </main></div>
- {user?.accountRole==='provider'&&<ProviderSetupAssistant user={user} businesses={ownBusinesses} listings={ownServices} onCreateBusiness={()=>gated('business-edit')} onAddService={addBusinessService} onManage={()=>go('My listings')}/>}
+ {user?.accountRole==='provider'&&page!=='Dashboard'&&<ProviderSetupAssistant user={user} businesses={ownBusinesses} listings={ownServices} onCreateBusiness={()=>gated('business-edit')} onAddService={addBusinessService} onManage={()=>go('My listings')}/>}
  {media&&<MediaViewer {...media} onClose={()=>setMedia(null)}/>}
  {gallery&&<Gallery listing={gallery} videoFirst={gallery.videoFirst} onClose={()=>setGallery(null)}/>}
  <footer><Logo/><span>DELSU Abraka</span><button onClick={()=>{setPhoto('');gated('business-edit',{setup:true});}}>Offer a service <ArrowUpRight size={15}/></button></footer>

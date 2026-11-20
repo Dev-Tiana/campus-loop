@@ -78,7 +78,7 @@ test('account dashboards show role-specific actions and exclude housing activity
  const listings=[{available:true,category:'Cleaning'},{available:true,category:'Housing'}];
  const render=accountRole=>renderToStaticMarkup(<AccountDashboard user={{id:'test',name:'Tiana Test',accountRole}} campus="DELSU Abraka" requests={requests} listings={listings}/>);
  const customer=render('customer'),provider=render('provider');
- assert.match(customer,/Hi, Tiana\./);
+ assert.match(customer,/Welcome back, Tiana/);
  assert.match(customer,/Request a service/);
  assert.match(customer,/Gel polish/);
  assert.doesNotMatch(customer,/House cleaning|Create a business|Viewing confirmed|Roommates/);
@@ -142,4 +142,14 @@ test('first service setup reuses the existing business and keeps the listing att
  assert.match(form,/Campus Cleaning/);
  assert.match(form,/Review service/);
  assert.doesNotMatch(form,/No business page|<option value="Housing"/);
+});
+
+import DiscoveryHeader from '../src/DiscoveryHeader.jsx';
+test('Explore puts search and both service actions above the filtered listings',()=>{
+ const html=renderToStaticMarkup(<DiscoveryHeader campus="DELSU Abraka" query="Cleaning"/>);
+ for(const value of ['Explore services','DELSU Abraka','role="search"','Cleaning','Request a service','Offer a service']) assert.ok(html.includes(value));
+ const directory=renderToStaticMarkup(<CompactCategories collapsible categories={['Nails','Hair','Laundry','Cleaning','Housing','Transport']}/>);
+ assert.match(directory,/All categories/);
+ assert.match(directory,/aria-expanded="false"/);
+ assert.doesNotMatch(directory,/aria-label="Transport"/);
 });

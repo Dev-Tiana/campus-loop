@@ -17,6 +17,8 @@ import {createRoot} from 'react-dom/client';
 import {CarFront,Hand,ArrowDown,ArrowRight,ArrowUpRight,Bell,BookOpen,Check,ChevronDown,House,MapPin,Menu,MessageCircle,Plus,Scissors,Search,Shirt,Sparkles,Star,Store,WandSparkles,WashingMachine,X} from 'lucide-react';
 import {campus,categories as baseCategories,money} from '../server/seed.js';
 import './style.css';
+import './interface.css';
+import MemberNavigation from './MemberNavigation.jsx';
 import Logo from './Logo.jsx';
 import CampusGuide,{GuideMenu,GuideSidebar,guideHref} from './CampusGuide.jsx';
 import {CookingRequest,FoodOrderForm,DeliveryRequest,FoodOrderSummary,DeliverySummary} from './Commerce.jsx';
@@ -233,6 +235,12 @@ function App(){
  const listingCover=listing&&coverPhotoUrl(listing,businesses.find(b=>b.id===listing.businessId));
  if(sessionStatus==='checking')return <div className="session-check" role="status"><Logo/><p>Opening Campus Loop…</p></div>;
  if(!user||route.kind!=='protected')return <div className="public-entry"><div className="public-install"><PwaPanel user={user}/></div>{error&&<p className="error public-error" role="alert">{error}</p>}{route.kind==='signin'||route.kind==='signup'?<main className="auth-screen"><a className="auth-back" href="/" onClick={e=>{e.preventDefault();setError('');navigate(welcomePath(route.next));}}>← Back to welcome</a><div className="auth-card"><AccountForm key={route.kind+(route.requiredRole || '')} signup={route.kind==='signup'} accountRole={route.requiredRole} requiredRole={route.requiredRole} campuses={data.campuses} busy={busy} onSend={send} onError={setError} onSuccess={finishAuth} onModeChange={(signup,role)=>{setError('');navigate(signup&&!role?'/':authPath({signup,role,next:route.next}));}}/></div></main>:<Welcome content={data.welcome} next={route.next} onNavigate={navigate}/>}</div>;
+ function selectDestination(key){
+   if(key==='account-menu')open('account-menu');
+   else if(key==='My listings' && user.accountRole!=='provider')navigate('/app/offer-service');
+   else go(key);
+ }
+ const navigationPage=modal?.type==='account-menu'?'account-menu':page;
  return <>
  {guideOpen&&<GuideMenu activeId={page==='Guide'?guideId:null} items={guide.menuItems} onClose={()=>setGuideOpen(false)} onChoose={id=>{setGuideOpen(false);navigate(guideHref(id));}}/>}
  <header><div className="header-inner"><button className="icon-btn guide-menu-toggle" aria-label="Open Campus Guide" aria-controls="campus-guide-menu" aria-expanded={guideOpen} onClick={()=>setGuideOpen(!guideOpen)}><Menu size={22}/></button>
@@ -242,7 +250,7 @@ function App(){
    <div className="header-actions"><button className="icon-btn" title="Notifications" aria-label={'Notifications'+(unread?' · '+unread+' unread':'')} onClick={()=>go('Notifications')}><Bell size={19}/>{unread>0&&<b className="notification-count">{unread}</b>}</button>
    <button className="dark account" aria-label={user?'Account menu · '+(user.accountRole || 'Role setup'):'Sign in'} onClick={()=>user?open('account-menu'):open('account')}>{user?user.name.split(' ')[0]:'Sign in'}</button></div>
  </div></header>
- <div className="marketplace-layout"><GuideSidebar items={guide.menuItems} activeId={page==='Guide'?guideId:null} onChoose={id=>navigate(guideHref(id))}/><main className="marketplace-content"><PwaPanel user={user}/><PhoneAlerts settings={page==='Notifications'}/><Announcements items={data.announcements}/>
+ <div className="marketplace-layout"><div className="loop-sidebar"><MemberNavigation page={navigationPage} onSelect={selectDestination}/><GuideSidebar items={guide.menuItems} activeId={page==='Guide'?guideId:null} onChoose={id=>navigate(guideHref(id))}/></div><main className="marketplace-content"><PwaPanel user={user}/><PhoneAlerts settings={page==='Notifications'}/><Announcements items={data.announcements}/>
  {error&&!modal&&<p className="error" role="alert">{error}</p>}
  {offline&&<p className="notice">Connection lost. Reconnect to load current activity.</p>}
  {page==='Explore' && <>
@@ -285,7 +293,7 @@ function App(){
  {media&&<MediaViewer {...media} onClose={()=>setMedia(null)}/>}
  {gallery&&<Gallery listing={gallery} videoFirst={gallery.videoFirst} onClose={()=>setGallery(null)}/>}
  <footer><Logo/><span>DELSU Abraka</span><button onClick={()=>{setPhoto('');gated('business-edit',{setup:true});}}>Offer a service <ArrowUpRight size={15}/></button></footer>
- <div className="mobile-nav" aria-label="Mobile navigation">{[['Explore',Search],['Housing',House],['Requests',MessageCircle],['Notifications',Bell],['Dashboard',Store]].map(([p,Icon])=><button key={p} className={page===p?'current':''} onClick={()=>go(p)}><Icon size={19}/>{p==='Dashboard'?'Account':p==='Notifications'?'Alerts':p}{p==='Notifications'&&unread>0?<b aria-label={unread+' unread notifications'}>{unread}</b>:p==='Requests'&&incoming>0?<b>{incoming}</b>:null}</button>)}</div>
+ <MemberNavigation mobile page={navigationPage} onSelect={selectDestination}/>
  {toast&&<div className="toast" role="status"><Check size={18}/>{toast}</div>}
  {modal && <div className="overlay" style={{display:authPrompt?'none':undefined}} onClick={e=>{if(e.target===e.currentTarget)close();}}><div key={modal.firstService||modal.type==='service-published'?modal.type:undefined} className="dialog" role="dialog" aria-modal="true" aria-label="Campus Loop form">
  <button className="icon-btn close" onClick={close} aria-label="Close"><X size={22}/></button>

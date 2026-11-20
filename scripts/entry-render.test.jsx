@@ -1,7 +1,8 @@
+import {welcomeCopy} from '../shared/welcome-copy.js';
 import test from 'node:test';import assert from 'node:assert/strict';import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import Welcome from '../src/Welcome.jsx';import AccountForm from '../src/AccountForm.jsx';import MarketplaceHero from '../src/MarketplaceHero.jsx';import CompactCategories from '../src/CompactCategories.jsx';import AccountSwitcher from '../src/AccountSwitcher.jsx';import {categories} from '../server/seed.js';
 test('welcome renders the exact approved wording, direct signup paths and no marketplace content',()=>{
  const html=renderToStaticMarkup(<Welcome/>);
- for(const text of ['Find a barber, nail tech, or lash tech near DELSU Abraka.','Need a fresh haircut, gel nails, a lash set, braids, or a wig installation? Campus Loop helps you find someone near campus. You can also book a cleaner or look for a roommate.','Run a business or offer a service? Create a provider account so students can find your work and request your services.','I’m looking for a service','I offer a service','Create a customer account','Create a provider account','Already have an account? Sign in'])assert.ok(html.includes(text),text);
+ for(const text of [welcomeCopy.headline,...welcomeCopy.intro.split('\n\n'),welcomeCopy.provider,'I’m looking for a service','I offer a service','Create a customer account','Create a provider account','Already have an account? Sign in'])assert.ok(html.includes(text),text);
  for(const href of ['/signup/customer','/signup/provider','/signin'])assert.ok(html.includes('href="'+href+'"'));
  for(const hidden of ['Browse categories','Services near you','Search providers','listing-card','Mobile navigation'])assert.ok(!html.includes(hidden));
  assert.ok(!html.includes('<br'));assert.ok(html.includes('/brand/loop.svg'));
@@ -15,7 +16,7 @@ test('signed-in marketplace keeps the two-line hero, both service actions and ic
 });
 
 test('welcome has one campus image, and switcher shows active and separate linked roles',()=>{
- const html=renderToStaticMarkup(<Welcome/>);assert.equal((html.match(/class="welcome-photo"/g)||[]).length,1);assert.equal((html.match(/<img/g)||[]).length,4);assert.match(html,/src="\/walkthroughs\/customer\.webp"/);assert.match(html,/src="\/walkthroughs\/provider\.webp"/);assert.ok(html.includes('/images/welcome-nigerian-campus.webp'));assert.doesNotMatch(html,/Photo credit|<figcaption/);assert.ok(!html.includes('welcome-emblem'));
+ const html=renderToStaticMarkup(<Welcome/>);assert.equal((html.match(/class="loop-campus-hero"/g)||[]).length,1);assert.equal((html.match(/<img/g)||[]).length,4);assert.match(html,/src="\/walkthroughs\/customer\.webp"/);assert.match(html,/src="\/walkthroughs\/provider\.webp"/);assert.ok(html.includes('/images/welcome-nigerian-campus.webp'));assert.doesNotMatch(html,/Photo credit|<figcaption/);assert.ok(!html.includes('welcome-emblem'));
  const user={id:'customer',name:'Customer',accountRole:'customer'},accounts=[{...user,email:'customer@example.com'},{id:'provider',name:'Provider',accountRole:'provider',email:'provider@example.com'}];const switcher=renderToStaticMarkup(<AccountSwitcher user={user} accounts={accounts}/>);for(const text of ['Switch account','Active account','customer account','provider account','Switch to provider'])assert.ok(switcher.includes(text),text);
 });
 

@@ -4,6 +4,16 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "campus-loop-staging-git-redesign-com-a26859-dev-tianas-projects.vercel.app"
+        }
+      ],
+      "destination": "/api/redesign-preview?previewPath=:path*"
+    },
+    {
       "source": "/api/recovery/:path*",
       "destination": "https://qmyhjpjfcilngiijrjre.supabase.co/functions/v1/campusloop-recovery/api/recovery/:path*"
     },
